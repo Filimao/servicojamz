@@ -2,13 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, ArrowRight } from "lucide-react";
 import { categories, cities } from "@/data/mockData";
-
 export function HeroSection() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background py-12 sm:py-20">
+  return <section className="relative overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background py-12 sm:py-20">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
@@ -26,7 +23,7 @@ export function HeroSection() {
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 animate-slide-up leading-tight">
             Encontre profissionais{" "}
-            <span className="text-gradient">de confiança</span>{" "}
+            {" "}
             perto de si
           </h1>
 
@@ -42,34 +39,22 @@ export function HeroSection() {
               {/* Category Select */}
               <div className="flex-1 relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
-                >
+                <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer">
                   <option value="">Que serviço precisa?</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
+                  {categories.map(cat => <option key={cat.id} value={cat.id}>
                       {cat.icon} {cat.name}
-                    </option>
-                  ))}
+                    </option>)}
                 </select>
               </div>
 
               {/* Location Select */}
               <div className="flex-1 relative">
                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
-                >
+                <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)} className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer">
                   <option value="">Onde está?</option>
-                  {cities.map((city) => (
-                    <option key={city} value={city}>
+                  {cities.map(city => <option key={city} value={city}>
                       {city}
-                    </option>
-                  ))}
+                    </option>)}
                 </select>
               </div>
 
@@ -98,6 +83,5 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
