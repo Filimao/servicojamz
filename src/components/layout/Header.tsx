@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, Search, LogOut } from "lucide-react";
+import { Menu, X, User, Search, LogOut, Shield } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, profile, signOut, isLoading } = useAuth();
+  const { user, profile, isAdmin, signOut, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -61,6 +61,14 @@ export function Header() {
               <>
                 {user ? (
                   <div className="flex items-center gap-3">
+                    {isAdmin && (
+                      <Link to="/admin">
+                        <Button variant="outline" size="sm">
+                          <Shield className="w-4 h-4 mr-2" />
+                          Admin
+                        </Button>
+                      </Link>
+                    )}
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                         <User className="w-4 h-4 text-primary" />
@@ -136,6 +144,14 @@ export function Header() {
                         {profile?.full_name || "Usuário"}
                       </span>
                     </div>
+                    {isAdmin && (
+                      <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
+                        <Button variant="outline" className="w-full mb-2">
+                          <Shield className="w-4 h-4 mr-2" />
+                          Painel Admin
+                        </Button>
+                      </Link>
+                    )}
                     <Button variant="outline" className="w-full" onClick={handleSignOut}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Sair
