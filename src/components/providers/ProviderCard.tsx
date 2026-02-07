@@ -1,28 +1,21 @@
 import { ServiceProvider } from "@/types";
 import { Star, MapPin, Phone, CheckCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 interface ProviderCardProps {
   provider: ServiceProvider;
 }
-
-export function ProviderCard({ provider }: ProviderCardProps) {
-  return (
-    <div className="card-interactive p-5 h-full flex flex-col">
+export function ProviderCard({
+  provider
+}: ProviderCardProps) {
+  return <div className="card-interactive p-5 h-full flex flex-col">
       {/* Header */}
       <div className="flex items-start gap-4 mb-4">
         {/* Avatar */}
         <div className="relative">
-          <img
-            src={provider.avatar}
-            alt={provider.name}
-            className="w-16 h-16 rounded-xl object-cover"
-          />
-          {provider.isVerified && (
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
+          
+          {provider.isVerified && <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
               <CheckCircle className="w-4 h-4 text-secondary-foreground" />
-            </div>
-          )}
+            </div>}
         </div>
 
         {/* Info */}
@@ -31,12 +24,10 @@ export function ProviderCard({ provider }: ProviderCardProps) {
             <h3 className="font-semibold text-foreground truncate">
               {provider.name}
             </h3>
-            {provider.isPremium && (
-              <span className="badge-premium">
+            {provider.isPremium && <span className="badge-premium">
                 <Sparkles className="w-3 h-3" />
                 Premium
-              </span>
-            )}
+              </span>}
           </div>
           
           <p className="text-sm text-primary font-medium mt-0.5">
@@ -66,19 +57,12 @@ export function ProviderCard({ provider }: ProviderCardProps) {
 
       {/* Services Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {provider.services.slice(0, 3).map((service) => (
-          <span
-            key={service}
-            className="px-2 py-1 rounded-lg bg-muted text-xs text-muted-foreground"
-          >
+        {provider.services.slice(0, 3).map(service => <span key={service} className="px-2 py-1 rounded-lg bg-muted text-xs text-muted-foreground">
             {service}
-          </span>
-        ))}
-        {provider.services.length > 3 && (
-          <span className="px-2 py-1 rounded-lg bg-muted text-xs text-muted-foreground">
+          </span>)}
+        {provider.services.length > 3 && <span className="px-2 py-1 rounded-lg bg-muted text-xs text-muted-foreground">
             +{provider.services.length - 3}
-          </span>
-        )}
+          </span>}
       </div>
 
       {/* Price Range */}
@@ -96,6 +80,5 @@ export function ProviderCard({ provider }: ProviderCardProps) {
           Contactar
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 }
