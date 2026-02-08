@@ -1,11 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, ArrowRight } from "lucide-react";
 import { categories, cities } from "@/data/mockData";
+
 export function HeroSection() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  return <section className="relative overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background py-12 sm:py-20">
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedCategory) params.set("category", selectedCategory);
+    if (selectedCity) params.set("city", selectedCity);
+    navigate(`/services${params.toString() ? `?${params.toString()}` : ""}`);
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background py-12 sm:py-20">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
@@ -23,13 +35,13 @@ export function HeroSection() {
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 animate-slide-up leading-tight">
             Encontre profissionais{" "}
-            {" "}
+            <span className="text-primary">confiáveis</span>{" "}
             perto de si
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-muted-foreground mb-8 animate-slide-up delay-100 max-w-2xl mx-auto">
-            Conectamos você aos melhores eletricistas, canalizadores, pedreiros 
+            Conectamos você a eletricistas, canalizadores, pedreiros 
             e outros profissionais verificados em Moçambique.
           </p>
 
@@ -39,28 +51,40 @@ export function HeroSection() {
               {/* Category Select */}
               <div className="flex-1 relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer">
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
+                >
                   <option value="">Que serviço precisa?</option>
-                  {categories.map(cat => <option key={cat.id} value={cat.id}>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
                       {cat.icon} {cat.name}
-                    </option>)}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               {/* Location Select */}
               <div className="flex-1 relative">
                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)} className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer">
-                  <option value="">Onde está?</option>
-                  {cities.map(city => <option key={city} value={city}>
+                <select
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
+                >
+                  <option value="">Cidade ou bairro</option>
+                  {cities.map((city) => (
+                    <option key={city} value={city}>
                       {city}
-                    </option>)}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               {/* Search Button */}
-              <Button variant="hero" size="lg" className="h-12 px-8">
-                Buscar
+              <Button variant="hero" size="lg" className="h-12 px-8" onClick={handleSearch}>
+                Buscar profissionais
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>
@@ -74,14 +98,15 @@ export function HeroSection() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-success">✓</span>
-              <span>Avaliações reais</span>
+              <span>Avaliações reais de clientes</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-success">✓</span>
-              <span>100% gratuito</span>
+              <span>Uso gratuito para clientes</span>
             </div>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 }

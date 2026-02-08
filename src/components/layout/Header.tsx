@@ -36,13 +36,13 @@ export function Header() {
               Serviços
             </Link>
             <Link 
-              to="/how-it-works" 
+              to="/como-funciona" 
               className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             >
               Como Funciona
             </Link>
             <Link 
-              to="/providers" 
+              to="/para-profissionais" 
               className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             >
               Para Profissionais
@@ -120,14 +120,14 @@ export function Header() {
                 Serviços
               </Link>
               <Link 
-                to="/how-it-works" 
+                to="/como-funciona" 
                 className="px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Como Funciona
               </Link>
               <Link 
-                to="/providers" 
+                to="/para-profissionais" 
                 className="px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
