@@ -13,6 +13,12 @@ import AdminProviders from "./pages/admin/AdminProviders";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSettings from "./pages/admin/AdminSettings";
+import ForProfessionals from "./pages/ForProfessionals";
+import ProviderRegistration from "./pages/ProviderRegistration";
+import ProviderProfile from "./pages/ProviderProfile";
+import HowItWorksPage from "./pages/HowItWorks";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +33,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<Services />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/para-profissionais" element={<ForProfessionals />} />
+            <Route path="/cadastro-profissional" element={<ProviderRegistration />} />
+            <Route path="/profissional/:id" element={<ProviderProfile />} />
+            <Route path="/como-funciona" element={<HowItWorksPage />} />
+            <Route path="/termos-de-uso" element={<TermsOfService />} />
+            <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/providers" element={<AdminProviders />} />
