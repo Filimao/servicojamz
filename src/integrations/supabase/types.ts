@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          link: string | null
+          message: string
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          message: string
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          message?: string
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -115,6 +148,36 @@ export type Database = {
           },
         ]
       }
+      reports: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          reason: string
+          reported_user_id: string
+          reporter_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reason: string
+          reported_user_id: string
+          reporter_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reason?: string
+          reported_user_id?: string
+          reporter_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           client_id: string
@@ -182,34 +245,52 @@ export type Database = {
       }
       service_requests: {
         Row: {
+          cancellation_reason: string | null
           category_id: string
+          city: string | null
           client_id: string
           created_at: string
           description: string
+          estimated_budget: string | null
           id: string
+          images: string[] | null
+          neighborhood: string | null
           provider_id: string
+          rejection_reason: string | null
           scheduled_date: string | null
           status: string
           updated_at: string
         }
         Insert: {
+          cancellation_reason?: string | null
           category_id: string
+          city?: string | null
           client_id: string
           created_at?: string
           description: string
+          estimated_budget?: string | null
           id?: string
+          images?: string[] | null
+          neighborhood?: string | null
           provider_id: string
+          rejection_reason?: string | null
           scheduled_date?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
+          cancellation_reason?: string | null
           category_id?: string
+          city?: string | null
           client_id?: string
           created_at?: string
           description?: string
+          estimated_budget?: string | null
           id?: string
+          images?: string[] | null
+          neighborhood?: string | null
           provider_id?: string
+          rejection_reason?: string | null
           scheduled_date?: string | null
           status?: string
           updated_at?: string
@@ -241,6 +322,30 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      work_photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          url: string
+          user_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          url: string
+          user_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          url?: string
           user_id?: string
         }
         Relationships: []

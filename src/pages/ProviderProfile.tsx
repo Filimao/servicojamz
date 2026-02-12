@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "@/components/layout/Header";
@@ -6,7 +5,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -29,8 +27,6 @@ import {
 export default function ProviderProfile() {
   const { id } = useParams();
   const { user } = useAuth();
-  const [message, setMessage] = useState("");
-  const [isSending, setIsSending] = useState(false);
 
   // Fetch provider data
   const { data: provider, isLoading } = useQuery({
@@ -91,26 +87,21 @@ export default function ProviderProfile() {
     enabled: !!provider?.user_id
   });
 
-  const handleSendMessage = async () => {
-    if (!user) {
-      toast.error("Precisa fazer login para enviar mensagem");
-      return;
-    }
+  // Fetch work photos
+  const { data: workPhotos } = useQuery({
+    queryKey: ["provider-work-photos", provider?.user_id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("work_photos")
+        .select("*")
+        .eq("user_id", provider!.user_id)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!provider?.user_id
+  });
 
-    if (!message.trim()) {
-      toast.error("Digite uma mensagem");
-      return;
-    }
-
-    setIsSending(true);
-    
-    // For now, we'll just show success - in production, this would create a service request or message
-    setTimeout(() => {
-      toast.success("Mensagem enviada! O profissional entrará em contacto.");
-      setMessage("");
-      setIsSending(false);
-    }, 1000);
-  };
 
   const handleWhatsApp = () => {
     const phone = provider?.profile?.phone;
@@ -262,6 +253,24 @@ export default function ProviderProfile() {
                 </Card>
               )}
 
+              {/* Work Photos Gallery */}
+              {workPhotos && workPhotos.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">📸 Galeria de Trabalhos</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {workPhotos.map((photo: any) => (
+                        <div key={photo.id} className="rounded-lg overflow-hidden aspect-square">
+                          <img src={photo.url} alt="Trabalho realizado" className="w-full h-full object-cover hover:scale-105 transition-transform" />
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <Card>
@@ -364,6 +373,13 @@ export default function ProviderProfile() {
                     </div>
                   )}
 
+                  <Button asChild className="w-full" size="lg">
+                    <Link to={`/solicitar-servico/${id}`}>
+                      <Send className="w-4 h-4 mr-2" />
+                      Solicitar Serviço
+                    </Link>
+                  </Button>
+
                   <Button onClick={handleWhatsApp} className="w-full" variant="default">
                     <MessageCircle className="w-4 h-4 mr-2" />
                     WhatsApp
@@ -377,29 +393,6 @@ export default function ProviderProfile() {
                       </a>
                     </Button>
                   )}
-
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-medium mb-2">Enviar Mensagem</p>
-                    <Textarea
-                      placeholder="Descreva o serviço que precisa..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      rows={3}
-                      className="mb-3"
-                    />
-                    <Button 
-                      onClick={handleSendMessage} 
-                      className="w-full"
-                      disabled={isSending}
-                    >
-                      {isSending ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <Send className="w-4 h-4 mr-2" />
-                      )}
-                      Enviar Pedido
-                    </Button>
-                  </div>
 
                   <p className="text-xs text-muted-foreground text-center">
                     A plataforma apenas conecta clientes e profissionais. 
