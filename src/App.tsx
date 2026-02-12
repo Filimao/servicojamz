@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
@@ -19,6 +19,9 @@ import ProviderProfile from "./pages/ProviderProfile";
 import HowItWorksPage from "./pages/HowItWorks";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ServiceRequest from "./pages/ServiceRequest";
+import MyRequests from "./pages/MyRequests";
+import ProviderDashboard from "./pages/ProviderDashboard";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +42,9 @@ const App = () => (
             <Route path="/como-funciona" element={<HowItWorksPage />} />
             <Route path="/termos-de-uso" element={<TermsOfService />} />
             <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
+            <Route path="/solicitar-servico/:providerId" element={<ServiceRequest />} />
+            <Route path="/meus-pedidos" element={<MyRequests />} />
+            <Route path="/painel" element={<ProviderDashboard />} />
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/providers" element={<AdminProviders />} />
