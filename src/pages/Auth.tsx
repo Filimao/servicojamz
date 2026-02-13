@@ -58,8 +58,9 @@ export default function Auth() {
         } else {
           toast({
             title: "Conta criada!",
-            description: "Verifique seu email para confirmar a conta.",
+            description: "Sua conta está ativa. Bem-vindo ao ServiçoJá!",
           });
+          navigate("/");
         }
       }
     } finally {

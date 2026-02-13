@@ -86,6 +86,7 @@ export function useApproveProvider() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-providers"] });
       queryClient.invalidateQueries({ queryKey: ["admin-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["providers"] });
       toast({
         title: variables.approve ? "Prestador aprovado" : "Prestador rejeitado",
         description: variables.approve
