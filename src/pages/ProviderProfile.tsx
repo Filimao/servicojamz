@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { ReportDialog } from "@/components/ReportDialog";
 import { toast } from "sonner";
 import { 
   Star, 
@@ -398,6 +399,10 @@ export default function ProviderProfile() {
                     A plataforma apenas conecta clientes e profissionais. 
                     O pagamento é feito diretamente entre as partes.
                   </p>
+
+                  <div className="text-center pt-2 border-t border-border">
+                    <ReportDialog reportedUserId={provider.user_id} />
+                  </div>
                 </CardContent>
               </Card>
             </div>

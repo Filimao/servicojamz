@@ -8,6 +8,8 @@ import {
   Settings,
   ChevronLeft,
   Menu,
+  FileText,
+  AlertTriangle,
 } from "lucide-react";
 import {
   Sidebar,
@@ -27,6 +29,8 @@ import { cn } from "@/lib/utils";
 const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Prestadores", url: "/admin/providers", icon: UserCheck },
+  { title: "Pedidos", url: "/admin/orders", icon: FileText },
+  { title: "Denúncias", url: "/admin/reports", icon: AlertTriangle },
   { title: "Categorias", url: "/admin/categories", icon: FolderOpen },
   { title: "Utilizadores", url: "/admin/users", icon: Users },
   { title: "Configurações", url: "/admin/settings", icon: Settings },
