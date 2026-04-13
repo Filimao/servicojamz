@@ -224,6 +224,7 @@ export type Database = {
           id: string
           is_active: boolean
           name: string
+          slug: string
         }
         Insert: {
           created_at?: string
@@ -232,6 +233,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           name: string
+          slug: string
         }
         Update: {
           created_at?: string
@@ -240,6 +242,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           name?: string
+          slug?: string
         }
         Relationships: []
       }
