@@ -1,10 +1,24 @@
-import { providers } from "@/data/mockData";
-import { ProviderCard } from "@/components/providers/ProviderCard";
+import { useProviders } from "@/hooks/useProviders";
+import { ProviderCardDB } from "@/components/providers/ProviderCardDB";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 export function FeaturedProviders() {
-  const featuredProviders = providers.filter((p) => p.isPremium).slice(0, 3);
+  const { data: providers, isLoading } = useProviders({});
+  const featuredProviders = (providers || []).slice(0, 3);
+
+  if (isLoading) {
+    return (
+      <section className="py-16 sm:py-20 bg-muted/30">
+        <div className="container-app flex justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </section>
+    );
+  }
+
+  if (featuredProviders.length === 0) return null;
 
   return (
     <section className="py-16 sm:py-20 bg-muted/30">
@@ -34,7 +48,7 @@ export function FeaturedProviders() {
               className="animate-slide-up"
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              <ProviderCard provider={provider} />
+              <ProviderCardDB provider={provider} />
             </div>
           ))}
         </div>

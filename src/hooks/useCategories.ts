@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 export interface Category {
   id: string;
   name: string;
+  slug: string;
   icon: string;
   description: string | null;
   is_active: boolean;

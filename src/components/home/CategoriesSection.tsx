@@ -1,8 +1,13 @@
-import { categories } from "@/data/mockData";
+import { useCategories } from "@/hooks/useCategories";
+import { useProviders } from "@/hooks/useProviders";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function CategoriesSection() {
+  const { data: categories, isLoading } = useCategories();
+
+  if (isLoading || !categories) return null;
+
   return (
     <section className="py-16 sm:py-20">
       <div className="container-app">
@@ -16,10 +21,10 @@ export function CategoriesSection() {
 
         {/* Categories Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {categories.map((category, index) => (
+          {categories?.map((category, index) => (
             <Link
               key={category.id}
-              to={`/services/${category.id}`}
+              to={`/services?category=${category.id}`}
               className="group card-interactive p-6 text-center animate-slide-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -29,9 +34,6 @@ export function CategoriesSection() {
               <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                 {category.name}
               </h3>
-              <p className="text-sm text-muted-foreground">
-                {category.providerCount} profissionais
-              </p>
             </Link>
           ))}
         </div>
