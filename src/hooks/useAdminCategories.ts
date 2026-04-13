@@ -31,10 +31,13 @@ export function useCreateCategory() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (category: { name: string; icon: string; description: string }) => {
+    mutationFn: async (category: { name: string; icon: string; description: string; slug?: string }) => {
+      const slug = category.slug || category.name.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
       const { error } = await supabase
         .from("service_categories")
-        .insert(category);
+        .insert({ ...category, slug });
 
       if (error) throw error;
     },

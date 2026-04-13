@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,13 @@ import { cities } from "@/data/mockData";
 import { ProviderCardDB } from "@/components/providers/ProviderCardDB";
 
 export default function Services() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category") || "";
+  const initialCity = searchParams.get("city") || "";
+
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [selectedCity, setSelectedCity] = useState<string>(initialCity);
   const [minRating, setMinRating] = useState<number>(0);
   const [showFilters, setShowFilters] = useState(false);
 

@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, ArrowRight } from "lucide-react";
-import { categories, cities } from "@/data/mockData";
+import { cities } from "@/data/mockData";
+import { useCategories } from "@/hooks/useCategories";
 
 export function HeroSection() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
+  const { data: categories } = useCategories();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -57,7 +59,7 @@ export function HeroSection() {
                   className="w-full h-12 pl-12 pr-4 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
                 >
                   <option value="">Que serviço precisa?</option>
-                  {categories.map((cat) => (
+                  {categories?.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.icon} {cat.name}
                     </option>
