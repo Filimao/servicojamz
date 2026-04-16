@@ -47,6 +47,107 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount: number
+          client_id: string
+          confirmed_at: string | null
+          confirmed_by: string | null
+          created_at: string
+          id: string
+          method: string
+          mpesa_number: string | null
+          notes: string | null
+          provider_id: string
+          request_id: string
+          status: string
+          transaction_ref: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          client_id: string
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string
+          id?: string
+          method?: string
+          mpesa_number?: string | null
+          notes?: string | null
+          provider_id: string
+          request_id: string
+          status?: string
+          transaction_ref?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string
+          id?: string
+          method?: string
+          mpesa_number?: string | null
+          notes?: string | null
+          provider_id?: string
+          request_id?: string
+          status?: string
+          transaction_ref?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      platform_settings: {
+        Row: {
+          allow_provider_signup: boolean
+          contact_phone: string | null
+          created_at: string
+          id: string
+          location: string | null
+          logo_url: string | null
+          platform_description: string | null
+          platform_name: string
+          require_login: boolean
+          support_email: string | null
+          updated_at: string
+        }
+        Insert: {
+          allow_provider_signup?: boolean
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          platform_description?: string | null
+          platform_name?: string
+          require_login?: boolean
+          support_email?: string | null
+          updated_at?: string
+        }
+        Update: {
+          allow_provider_signup?: boolean
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          platform_description?: string | null
+          platform_name?: string
+          require_login?: boolean
+          support_email?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
