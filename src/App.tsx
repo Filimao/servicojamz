@@ -16,6 +16,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminReports from "./pages/admin/AdminReports";
+import AdminPayments from "./pages/admin/AdminPayments";
 import ForProfessionals from "./pages/ForProfessionals";
 import ProviderRegistration from "./pages/ProviderRegistration";
 import ProviderProfile from "./pages/ProviderProfile";
@@ -59,6 +60,7 @@ const App = () => (
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/orders" element={<AdminOrders />} />
             <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/payments" element={<AdminPayments />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
             
             <Route path="*" element={<NotFound />} />
