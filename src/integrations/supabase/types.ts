@@ -369,6 +369,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      notify_provider_of_request: {
+        Args: {
+          _link?: string
+          _message: string
+          _provider_user_id: string
+          _title: string
+          _type?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
