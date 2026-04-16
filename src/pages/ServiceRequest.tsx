@@ -78,13 +78,13 @@ export default function ServiceRequest() {
       });
       if (error) throw error;
 
-      // Create notification for provider
-      await supabase.from("notifications").insert({
-        user_id: provider.user_id,
-        title: "Novo pedido de serviço",
-        message: `Você recebeu um novo pedido de serviço. Acesse seus pedidos para ver os detalhes.`,
-        type: "new_request",
-        link: "/painel",
+      // Create notification for provider via secure RPC (validates relationship server-side)
+      await supabase.rpc("notify_provider_of_request", {
+        _provider_user_id: provider.user_id,
+        _title: "Novo pedido de serviço",
+        _message: "Você recebeu um novo pedido de serviço. Acesse seus pedidos para ver os detalhes.",
+        _link: "/painel",
+        _type: "new_request",
       });
 
       toast.success("Pedido enviado com sucesso. O profissional entrará em contacto.");
