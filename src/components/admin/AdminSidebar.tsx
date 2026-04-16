@@ -10,6 +10,7 @@ import {
   Menu,
   FileText,
   AlertTriangle,
+  Wallet,
 } from "lucide-react";
 import {
   Sidebar,
@@ -30,6 +31,7 @@ const menuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Prestadores", url: "/admin/providers", icon: UserCheck },
   { title: "Pedidos", url: "/admin/orders", icon: FileText },
+  { title: "Pagamentos", url: "/admin/payments", icon: Wallet },
   { title: "Denúncias", url: "/admin/reports", icon: AlertTriangle },
   { title: "Categorias", url: "/admin/categories", icon: FolderOpen },
   { title: "Utilizadores", url: "/admin/users", icon: Users },
