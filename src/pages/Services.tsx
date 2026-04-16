@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCategories } from "@/hooks/useCategories";
 import { useProviders, ProviderWithProfile } from "@/hooks/useProviders";
-import { Search, MapPin, Star, Filter, X, Loader2 } from "lucide-react";
+import { Search, MapPin, Star, Filter, X } from "lucide-react";
 import { cities } from "@/data/mockData";
 import { ProviderCardDB } from "@/components/providers/ProviderCardDB";
+import { ProviderCardSkeleton } from "@/components/providers/ProviderCardSkeleton";
 
 export default function Services() {
   const [searchParams] = useSearchParams();
@@ -211,10 +212,12 @@ export default function Services() {
               </h2>
             </div>
 
-            {/* Loading State */}
+            {/* Loading State - Skeletons */}
             {providersLoading && (
-              <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <ProviderCardSkeleton key={i} />
+                ))}
               </div>
             )}
 
