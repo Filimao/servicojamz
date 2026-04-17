@@ -7,10 +7,36 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle, Smartphone } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { RegisterPaymentDialog } from "@/components/payments/RegisterPaymentDialog";
+import { usePaymentsByRequest } from "@/hooks/usePayments";
+
+const paymentStatusMap: Record<string, { label: string; color: string }> = {
+  pending: { label: "Pagamento pendente", color: "bg-warning/10 text-warning" },
+  paid: { label: "Pago - aguarda confirmação", color: "bg-info/10 text-info" },
+  confirmed: { label: "Pagamento confirmado", color: "bg-success/10 text-success" },
+  rejected: { label: "Pagamento rejeitado", color: "bg-destructive/10 text-destructive" },
+};
+
+function PaymentSection({ requestId, isProvider }: { requestId: string; isProvider: boolean }) {
+  const { data: payments } = usePaymentsByRequest(requestId);
+  if (!payments || payments.length === 0) return null;
+  return (
+    <div className="mt-3 space-y-1">
+      {payments.map((p) => (
+        <div key={p.id} className="flex items-center justify-between text-xs p-2 bg-muted/40 rounded">
+          <span>💳 {Number(p.amount).toLocaleString("pt-MZ")} MZN {p.transaction_ref && `· ${p.transaction_ref}`}</span>
+          <Badge className={paymentStatusMap[p.status]?.color || ""}>
+            {paymentStatusMap[p.status]?.label || p.status}
+          </Badge>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const statusMap: Record<string, { label: string; color: string; icon: any }> = {
   pending: { label: "Pendente", color: "bg-warning/10 text-warning", icon: Clock },
