@@ -86,6 +86,7 @@ export default function MyRequests() {
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
+  const [payingRequest, setPayingRequest] = useState<any | null>(null);
 
   const submitReview = useMutation({
     mutationFn: async ({ requestId, providerId }: { requestId: string; providerId: string }) => {
