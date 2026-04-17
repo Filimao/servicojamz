@@ -4,12 +4,16 @@ import { Menu, X, User, Search, LogOut, Shield, Briefcase, FileText } from "luci
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { NotificationBell } from "@/components/NotificationBell";
+import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, profile, isAdmin, signOut, isLoading } = useAuth();
+  const { data: settings } = usePlatformSettings();
   const navigate = useNavigate();
   const isProvider = profile?.user_type === "provider";
+  const platformName = settings?.platform_name || "ServiçoJá";
+  const logoUrl = settings?.logo_url;
 
   const handleSignOut = async () => {
     await signOut();
@@ -22,10 +26,14 @@ export function Header() {
       <div className="container-app">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center">
-              <span className="text-xl">🤝</span>
-            </div>
-            <span className="font-bold text-xl text-foreground">ServiçoJá</span>
+            {logoUrl ? (
+              <img src={logoUrl} alt={platformName} className="w-10 h-10 rounded-xl object-cover" />
+            ) : (
+              <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center">
+                <span className="text-xl">🤝</span>
+              </div>
+            )}
+            <span className="font-bold text-xl text-foreground">{platformName}</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">

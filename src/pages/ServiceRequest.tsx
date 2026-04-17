@@ -31,11 +31,16 @@ export default function ServiceRequest() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("provider_profiles")
-        .select(`*, service_categories(name, icon), profiles:profiles!provider_profiles_user_id_fkey(full_name)`)
+        .select(`*, service_categories(name, icon)`)
         .eq("id", providerId)
         .single();
       if (error) throw error;
-      return data;
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("user_id", data.user_id)
+        .maybeSingle();
+      return { ...data, profiles: profile };
     },
     enabled: !!providerId,
   });
@@ -90,8 +95,8 @@ export default function ServiceRequest() {
       toast.success("Pedido enviado com sucesso. O profissional entrará em contacto.");
       navigate("/meus-pedidos");
     } catch (err: any) {
-      console.error(err);
-      toast.error("Erro ao enviar pedido. Tente novamente.");
+      console.error("[ServiceRequest] submit error:", err);
+      toast.error(err?.message || "Erro ao enviar pedido. Tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
