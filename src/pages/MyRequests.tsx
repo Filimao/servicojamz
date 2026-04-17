@@ -258,6 +258,16 @@ export default function MyRequests() {
         </div>
       </main>
       <Footer />
+      {payingRequest && (
+        <RegisterPaymentDialog
+          open={!!payingRequest}
+          onOpenChange={(o) => !o && setPayingRequest(null)}
+          requestId={payingRequest.id}
+          clientId={payingRequest.client_id}
+          providerId={payingRequest.provider_id}
+          defaultAmount={payingRequest.estimated_budget}
+        />
+      )}
     </div>
   );
 }
