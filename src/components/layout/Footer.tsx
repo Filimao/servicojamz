@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 
 export function Footer() {
+  const { data: settings } = usePlatformSettings();
+  const platformName = settings?.platform_name || "ServiçoJá";
+  const logoUrl = settings?.logo_url;
+  const description = settings?.platform_description || "Conectando Moçambicanos a profissionais de confiança. Encontre o serviço que precisa, perto de si.";
+  const contactPhone = settings?.contact_phone || "879132543";
+  const supportEmail = settings?.support_email || "filimaofelix10@gmail.com";
+  const location = settings?.location || "Moçambique";
+  const phoneDigits = contactPhone.replace(/\D/g, "");
+
   return (
     <footer className="bg-foreground text-background py-12 mt-20">
       <div className="container-app">
@@ -9,14 +19,17 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <span className="text-xl">🤝</span>
-              </div>
-              <span className="font-bold text-xl">ServiçoJá</span>
+              {logoUrl ? (
+                <img src={logoUrl} alt={platformName} className="w-10 h-10 rounded-xl object-cover" />
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+                  <span className="text-xl">🤝</span>
+                </div>
+              )}
+              <span className="font-bold text-xl">{platformName}</span>
             </div>
             <p className="text-background/70 mb-4">
-              Conectando Moçambicanos a profissionais de confiança. 
-              Encontre o serviço que precisa, perto de si.
+              {description}
             </p>
             <p className="text-background/50 text-sm italic">
               A plataforma apenas conecta clientes e profissionais. O pagamento e o acordo são feitos diretamente entre as partes.
@@ -73,37 +86,37 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <a 
-                  href="tel:+258850147162" 
+                  href={`tel:+258${phoneDigits}`}
                   className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
                 >
                   <Phone className="w-4 h-4" />
-                  <span>+258 850 147 162</span>
+                  <span>+258 {contactPhone}</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href="https://wa.me/258879132543" 
+                  href={`https://wa.me/258${phoneDigits}`}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>WhatsApp: 879 132 543</span>
+                  <span>WhatsApp: {contactPhone}</span>
                 </a>
               </li>
               <li>
                 <a 
-                  href="mailto:filimaofelix10@gmail.com" 
+                  href={`mailto:${supportEmail}`}
                   className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
                 >
                   <Mail className="w-4 h-4" />
-                  <span>filimaofelix10@gmail.com</span>
+                  <span>{supportEmail}</span>
                 </a>
               </li>
               <li>
                 <div className="flex items-center gap-2 text-background/70">
                   <MapPin className="w-4 h-4" />
-                  <span>Moçambique</span>
+                  <span>{location}</span>
                 </div>
               </li>
             </ul>
@@ -114,7 +127,7 @@ export function Footer() {
         <div className="border-t border-background/20 mt-10 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
-              © 2024 ServiçoJá. Todos os direitos reservados.
+              © {new Date().getFullYear()} {platformName}. Todos os direitos reservados.
             </p>
             <div className="flex gap-6 text-sm">
               <Link to="/termos-de-uso" className="text-background/70 hover:text-background transition-colors">

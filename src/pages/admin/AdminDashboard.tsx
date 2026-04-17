@@ -2,6 +2,7 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useAdminStats } from "@/hooks/useAdminStats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, UserCheck, Clock, Star, FolderOpen, FileText } from "lucide-react";
+import { RevenueWidget } from "@/components/admin/RevenueWidget";
 
 export default function AdminDashboard() {
   const { data: stats, isLoading } = useAdminStats();
@@ -96,6 +97,8 @@ export default function AdminDashboard() {
             ))}
           </div>
         )}
+
+        <RevenueWidget />
 
         {/* Quick actions */}
         <Card>
