@@ -173,6 +173,20 @@ export default function MyRequests() {
                         <p className="text-sm text-destructive mb-3">Motivo da recusa: {req.rejection_reason}</p>
                       )}
 
+                      <PaymentSection requestId={req.id} isProvider={isProvider} />
+
+                      {/* Client: Register M-Pesa payment for active requests */}
+                      {!isProvider && ["accepted", "in_progress", "completed"].includes(req.status) && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="mt-3 mr-2"
+                          onClick={() => setPayingRequest(req)}
+                        >
+                          <Smartphone className="w-4 h-4 mr-1" /> Registar pagamento M-Pesa
+                        </Button>
+                      )}
+
                       {/* Provider actions */}
                       {isProvider && req.status === "pending" && (
                         <div className="flex gap-2 mt-3">
