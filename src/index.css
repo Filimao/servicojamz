@@ -105,6 +105,14 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Reserve space for mobile bottom nav */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
   }
 
   html {
