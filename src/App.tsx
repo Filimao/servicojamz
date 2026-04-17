@@ -26,6 +26,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ServiceRequest from "./pages/ServiceRequest";
 import MyRequests from "./pages/MyRequests";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +67,8 @@ const App = () => (
             
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <BottomNav />
+          <WhatsAppButton />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

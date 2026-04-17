@@ -7,43 +7,43 @@
 
 @layer base {
   :root {
-    /* Warm, trustworthy palette for Mozambique marketplace */
-    --background: 40 33% 98%;
-    --foreground: 24 10% 15%;
+    /* Mozambique flag inspired palette */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 24 10% 15%;
+    --card-foreground: 0 0% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 24 10% 15%;
+    --popover-foreground: 0 0% 13%;
 
-    /* Warm amber/orange - energy and action */
-    --primary: 28 85% 55%;
-    --primary-foreground: 214 31.8182% 91.3725%;
+    /* Vermelho — ação/energia (#D32F2F) */
+    --primary: 0 65% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Deep green - trust and growth */
-    --secondary: 152 45% 35%;
+    /* Verde escuro — confiança/local (#006400) */
+    --secondary: 120 100% 20%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 40 20% 94%;
-    --muted-foreground: 24 10% 45%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    /* Coral accent */
-    --accent: 16 75% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* Amarelo — destaque/preço (#FFC107) */
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 13%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 28 85% 55%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 65% 50%;
 
-    --radius: 1.375rem;
+    --radius: 1rem;
 
     /* Custom colors */
-    --success: 152 60% 40%;
-    --warning: 45 93% 47%;
+    --success: 120 60% 30%;
+    --warning: 45 100% 51%;
     --info: 199 89% 48%;
 
     --sidebar-background: 0 0% 98%;
@@ -57,33 +57,33 @@
   }
 
   .dark {
-    --background: 24 10% 10%;
-    --foreground: 40 33% 98%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 24 10% 14%;
-    --card-foreground: 40 33% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 24 10% 14%;
-    --popover-foreground: 40 33% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 28 85% 55%;
+    --primary: 0 65% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 152 45% 40%;
+    --secondary: 120 60% 30%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 24 10% 20%;
-    --muted-foreground: 40 20% 65%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 16 75% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 13%;
 
-    --destructive: 0 62% 50%;
+    --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 24 10% 25%;
-    --input: 24 10% 25%;
-    --ring: 28 85% 55%;
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 0 65% 55%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -105,6 +105,14 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Reserve space for mobile bottom nav */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
   }
 
   html {
@@ -131,22 +139,22 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(28 85% 55%) 0%, hsl(16 75% 60%) 100%);
+    background: linear-gradient(135deg, hsl(0 65% 50%) 0%, hsl(0 70% 40%) 100%);
   }
 
   .gradient-trust {
-    background: linear-gradient(135deg, hsl(152 45% 35%) 0%, hsl(152 45% 45%) 100%);
+    background: linear-gradient(135deg, hsl(120 100% 20%) 0%, hsl(120 70% 28%) 100%);
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background: linear-gradient(135deg, hsl(28 85% 55%) 0%, hsl(16 75% 60%) 100%);
+    background: linear-gradient(135deg, hsl(0 65% 50%) 0%, hsl(120 100% 20%) 100%);
   }
 
   .badge-premium {
     @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold;
-    background: linear-gradient(135deg, hsl(28 85% 55%) 0%, hsl(16 75% 60%) 100%);
-    color: white;
+    background: hsl(45 100% 51%);
+    color: hsl(0 0% 13%);
   }
 
   .badge-verified {

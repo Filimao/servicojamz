@@ -105,8 +105,8 @@ export default {
   			'3xl': 'calc(var(--radius) + 12px)'
   		},
   		boxShadow: {
-  			glow: '0 0 20px hsl(28 85% 55% / 0.3)',
-  			'glow-lg': '0 0 30px hsl(28 85% 55% / 0.4)'
+  			glow: '0 0 20px hsl(0 65% 50% / 0.3)',
+  			'glow-lg': '0 0 30px hsl(0 65% 50% / 0.4)'
   		},
   		keyframes: {
   			'accordion-down': {
