@@ -7,10 +7,36 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle, Smartphone } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { RegisterPaymentDialog } from "@/components/payments/RegisterPaymentDialog";
+import { usePaymentsByRequest } from "@/hooks/usePayments";
+
+const paymentStatusMap: Record<string, { label: string; color: string }> = {
+  pending: { label: "Pagamento pendente", color: "bg-warning/10 text-warning" },
+  paid: { label: "Pago - aguarda confirmação", color: "bg-info/10 text-info" },
+  confirmed: { label: "Pagamento confirmado", color: "bg-success/10 text-success" },
+  rejected: { label: "Pagamento rejeitado", color: "bg-destructive/10 text-destructive" },
+};
+
+function PaymentSection({ requestId, isProvider }: { requestId: string; isProvider: boolean }) {
+  const { data: payments } = usePaymentsByRequest(requestId);
+  if (!payments || payments.length === 0) return null;
+  return (
+    <div className="mt-3 space-y-1">
+      {payments.map((p) => (
+        <div key={p.id} className="flex items-center justify-between text-xs p-2 bg-muted/40 rounded">
+          <span>💳 {Number(p.amount).toLocaleString("pt-MZ")} MZN {p.transaction_ref && `· ${p.transaction_ref}`}</span>
+          <Badge className={paymentStatusMap[p.status]?.color || ""}>
+            {paymentStatusMap[p.status]?.label || p.status}
+          </Badge>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const statusMap: Record<string, { label: string; color: string; icon: any }> = {
   pending: { label: "Pendente", color: "bg-warning/10 text-warning", icon: Clock },
@@ -60,6 +86,7 @@ export default function MyRequests() {
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
+  const [payingRequest, setPayingRequest] = useState<any | null>(null);
 
   const submitReview = useMutation({
     mutationFn: async ({ requestId, providerId }: { requestId: string; providerId: string }) => {
@@ -146,6 +173,20 @@ export default function MyRequests() {
                         <p className="text-sm text-destructive mb-3">Motivo da recusa: {req.rejection_reason}</p>
                       )}
 
+                      <PaymentSection requestId={req.id} isProvider={isProvider} />
+
+                      {/* Client: Register M-Pesa payment for active requests */}
+                      {!isProvider && ["accepted", "in_progress", "completed"].includes(req.status) && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="mt-3 mr-2"
+                          onClick={() => setPayingRequest(req)}
+                        >
+                          <Smartphone className="w-4 h-4 mr-1" /> Registar pagamento M-Pesa
+                        </Button>
+                      )}
+
                       {/* Provider actions */}
                       {isProvider && req.status === "pending" && (
                         <div className="flex gap-2 mt-3">
@@ -217,6 +258,16 @@ export default function MyRequests() {
         </div>
       </main>
       <Footer />
+      {payingRequest && (
+        <RegisterPaymentDialog
+          open={!!payingRequest}
+          onOpenChange={(o) => !o && setPayingRequest(null)}
+          requestId={payingRequest.id}
+          clientId={payingRequest.client_id}
+          providerId={payingRequest.provider_id}
+          defaultAmount={payingRequest.estimated_budget}
+        />
+      )}
     </div>
   );
 }
