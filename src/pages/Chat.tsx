@@ -27,6 +27,22 @@ export default function Chat() {
   const [text, setText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  const [requestStatus, setRequestStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeRequestId) { setRequestStatus(null); return; }
+    (async () => {
+      const { data } = await supabase
+        .from("service_requests")
+        .select("status")
+        .eq("id", activeRequestId)
+        .single();
+      setRequestStatus(data?.status || null);
+    })();
+  }, [activeRequestId]);
+
+  const chatEnabled = requestStatus !== null && ACTIVE_STATUSES.includes(requestStatus);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
