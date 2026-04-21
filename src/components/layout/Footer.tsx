@@ -13,7 +13,7 @@ export function Footer() {
   const phoneDigits = contactPhone.replace(/\D/g, "");
 
   return (
-    <footer className="bg-foreground text-background py-12 mt-20">
+    <footer className="bg-foreground text-background py-10 sm:py-12 mt-20 pb-20 md:pb-12">
       <div className="container-app">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}

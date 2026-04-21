@@ -93,7 +93,7 @@ export function HeroSection() {
               </div>
 
               {/* Search Button */}
-              <Button variant="default" size="lg" className="h-14 text-base font-bold" onClick={handleSearch}>
+              <Button variant="default" size="lg" className="h-14 min-h-[48px] text-base font-bold" onClick={handleSearch}>
                 Buscar agora
                 <ArrowRight className="w-5 h-5" />
               </Button>
