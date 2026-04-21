@@ -20,7 +20,7 @@ export function CategoriesSection() {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
           {categories?.map((category, index) => (
             <Link
               key={category.id}
