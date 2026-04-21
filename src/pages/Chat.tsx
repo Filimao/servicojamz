@@ -200,18 +200,27 @@ export default function Chat() {
               </ScrollArea>
 
               {/* Input */}
-              <div className="p-3 border-t border-border bg-card flex gap-2">
-                <Input
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Escreva uma mensagem..."
-                  className="flex-1"
-                  onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
-                />
-                <Button onClick={handleSend} size="icon" className="shrink-0 min-h-[44px] min-w-[44px]">
-                  <Send className="w-4 h-4" />
-                </Button>
-              </div>
+              {chatEnabled ? (
+                <div className="p-3 border-t border-border bg-card flex gap-2">
+                  <Input
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Escreva uma mensagem..."
+                    className="flex-1"
+                    onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+                  />
+                  <Button onClick={handleSend} size="icon" className="shrink-0 min-h-[44px] min-w-[44px]">
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="p-3 border-t border-border bg-muted/50 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                  <Lock className="w-4 h-4" />
+                  {requestStatus === "pending"
+                    ? "O chat estará disponível quando o pedido for aceite."
+                    : "Este pedido foi encerrado. Não é possível enviar mensagens."}
+                </div>
+              )}
             </>
           )}
         </div>
