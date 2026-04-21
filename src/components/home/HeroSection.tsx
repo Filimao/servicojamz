@@ -56,7 +56,7 @@ export function HeroSection() {
           {/* Search Box */}
           <div className="bg-card rounded-2xl p-4 shadow-2xl border border-border animate-slide-up delay-200">
             <div className="flex flex-col gap-3">
-              <div className="grid sm:grid-cols-2 gap-3">
+              <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3">
                 {/* Category Select */}
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
