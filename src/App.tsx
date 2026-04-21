@@ -26,6 +26,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ServiceRequest from "./pages/ServiceRequest";
 import MyRequests from "./pages/MyRequests";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import Chat from "./pages/Chat";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/solicitar-servico/:providerId" element={<ProtectedRoute><ServiceRequest /></ProtectedRoute>} />
             <Route path="/meus-pedidos" element={<ProtectedRoute><MyRequests /></ProtectedRoute>} />
             <Route path="/painel" element={<ProtectedRoute><ProviderDashboard /></ProtectedRoute>} />
+            <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboard />} />

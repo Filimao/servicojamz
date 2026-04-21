@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle, Smartphone } from "lucide-react";
+import { Loader2, Star, Clock, CheckCircle, XCircle, AlertCircle, Smartphone, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -184,6 +184,18 @@ export default function MyRequests() {
                           onClick={() => setPayingRequest(req)}
                         >
                           <Smartphone className="w-4 h-4 mr-1" /> Registar pagamento M-Pesa
+                        </Button>
+                      )}
+
+                      {/* Chat button for active requests */}
+                      {["accepted", "in_progress", "completed", "pending"].includes(req.status) && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="mt-3"
+                          onClick={() => navigate(`/chat?request=${req.id}`)}
+                        >
+                          <MessageCircle className="w-4 h-4 mr-1" /> Enviar Mensagem
                         </Button>
                       )}
 
