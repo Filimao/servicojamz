@@ -188,7 +188,7 @@ export default function MyRequests() {
                       )}
 
                       {/* Chat button for active requests */}
-                      {["accepted", "in_progress", "completed", "pending"].includes(req.status) && (
+                      {["accepted", "in_progress"].includes(req.status) && (
                         <Button
                           size="sm"
                           variant="ghost"
