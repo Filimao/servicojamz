@@ -213,4 +213,15 @@
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
+
+  /* WhatsApp button pulse */
+  @keyframes wa-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--secondary) / 0.5); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 12px hsl(var(--secondary) / 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--secondary) / 0); }
+  }
+
+  .animate-wa-pulse {
+    animation: wa-pulse 2s ease-in-out infinite;
+  }
 }

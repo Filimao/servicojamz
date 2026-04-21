@@ -23,7 +23,7 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
 
   return (
     <Link to={`/profissional/${provider.id}`} className="block h-full">
-      <div className="card-interactive p-5 h-full flex flex-col hover:shadow-lg transition-shadow">
+      <div className="card-interactive p-4 sm:p-5 h-full flex flex-col hover:shadow-lg transition-shadow">
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
           {/* Avatar */}
@@ -124,11 +124,11 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 mt-auto">
-          <Button variant="outline" className="flex-1">
+        <div className="flex gap-2 mt-auto pt-2">
+          <Button variant="outline" className="flex-1 min-h-[44px]">
             Ver Perfil
           </Button>
-          <Button variant="hero" className="flex-1" onClick={handleWhatsApp}>
+          <Button variant="hero" className="flex-1 min-h-[44px]" onClick={handleWhatsApp}>
             <MessageCircle className="w-4 h-4" />
             WhatsApp
           </Button>
