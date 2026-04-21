@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useConversations, useMessages, Conversation } from "@/hooks/useChat";
 import { Header } from "@/components/layout/Header";
@@ -10,18 +11,42 @@ import { ArrowLeft, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { pt } from "date-fns/locale";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Chat() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const { conversations, loading: convsLoading } = useConversations();
   const [selected, setSelected] = useState<Conversation | null>(null);
-  const { messages, loading: msgsLoading, sendMessage } = useMessages(selected?.request_id || null);
+  const [requestParam, setRequestParam] = useState<string | null>(null);
+  const activeRequestId = selected?.request_id || requestParam || null;
+  const { messages, loading: msgsLoading, sendMessage } = useMessages(activeRequestId);
   const [text, setText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Auto-select from URL ?request=
+  useEffect(() => {
+    const reqId = searchParams.get("request");
+    if (!reqId || !user || convsLoading) return;
+    const existing = conversations.find((c) => c.request_id === reqId);
+    if (existing) { setSelected(existing); return; }
+    (async () => {
+      const { data: req } = await supabase.from("service_requests").select("client_id, provider_id").eq("id", reqId).single();
+      if (!req) return;
+      const otherId = req.client_id === user.id ? req.provider_id : req.client_id;
+      const { data: p } = await supabase.from("profiles").select("full_name, avatar_url").eq("user_id", otherId).single();
+      setRequestParam(reqId);
+      setSelected({
+        request_id: reqId, other_user_id: otherId,
+        other_user_name: p?.full_name || "Utilizador", other_user_avatar: p?.avatar_url || null,
+        last_message: "", last_message_at: new Date().toISOString(), unread_count: 0,
+      });
+    })();
+  }, [searchParams, user, conversations, convsLoading]);
 
   const handleSend = async () => {
     if (!selected || !text.trim()) return;
