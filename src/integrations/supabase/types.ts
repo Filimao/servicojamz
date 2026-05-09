@@ -144,6 +144,39 @@ export type Database = {
           },
         ]
       }
+      phone_otps: {
+        Row: {
+          attempts: number
+          code_hash: string
+          created_at: string
+          expires_at: string
+          id: string
+          phone: string
+          purpose: string
+          used_at: string | null
+        }
+        Insert: {
+          attempts?: number
+          code_hash: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          phone: string
+          purpose: string
+          used_at?: string | null
+        }
+        Update: {
+          attempts?: number
+          code_hash?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          phone?: string
+          purpose?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       platform_settings: {
         Row: {
           allow_provider_signup: boolean
@@ -195,6 +228,7 @@ export type Database = {
           id: string
           neighborhood: string | null
           phone: string | null
+          phone_verified: boolean
           updated_at: string
           user_id: string
           user_type: Database["public"]["Enums"]["user_type"]
@@ -207,6 +241,7 @@ export type Database = {
           id?: string
           neighborhood?: string | null
           phone?: string | null
+          phone_verified?: boolean
           updated_at?: string
           user_id: string
           user_type?: Database["public"]["Enums"]["user_type"]
@@ -219,6 +254,7 @@ export type Database = {
           id?: string
           neighborhood?: string | null
           phone?: string | null
+          phone_verified?: boolean
           updated_at?: string
           user_id?: string
           user_type?: Database["public"]["Enums"]["user_type"]
