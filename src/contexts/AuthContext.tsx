@@ -114,23 +114,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userType: "client" | "provider" = "client"
   ) => {
     const normalizedPhone = normalizePhone(phone);
-    const payload: Parameters<typeof supabase.auth.signUp>[0] = {
-      password,
-      options: {
-        emailRedirectTo: window.location.origin,
-        data: {
-          full_name: fullName,
-          phone: normalizedPhone,
-          user_type: userType,
-        },
+    const options = {
+      emailRedirectTo: window.location.origin,
+      data: {
+        full_name: fullName,
+        phone: normalizedPhone,
+        user_type: userType,
       },
     };
-    if (email && email.trim().length > 0) {
-      (payload as { email?: string }).email = email.trim();
-    } else {
-      (payload as { phone?: string }).phone = normalizedPhone;
-    }
-    const { error } = await supabase.auth.signUp(payload);
+    const { error } = email && email.trim().length > 0
+      ? await supabase.auth.signUp({ email: email.trim(), password, options })
+      : await supabase.auth.signUp({ phone: normalizedPhone, password, options });
     return { error: error as Error | null };
   };
 
