@@ -21,6 +21,7 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   
   const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -31,12 +32,12 @@ export default function Auth() {
 
     try {
       if (mode === "login") {
-        const { error } = await signIn(email, password);
+        const { error } = await signIn(identifier, password);
         if (error) {
           toast({
             title: "Erro ao entrar",
             description: error.message === "Invalid login credentials" 
-              ? "Email ou senha incorretos" 
+              ? "Credenciais incorretas"
               : error.message,
             variant: "destructive",
           });
@@ -48,7 +49,16 @@ export default function Auth() {
           navigate("/");
         }
       } else {
-        const { error } = await signUp(email, password, fullName, phone, userType);
+        if (!phone || phone.trim().length < 6) {
+          toast({
+            title: "Telefone obrigatório",
+            description: "Insira o seu número de telefone para criar a conta.",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+        const { error } = await signUp(email || undefined, password, fullName, phone, userType);
         if (error) {
           toast({
             title: "Erro ao cadastrar",
