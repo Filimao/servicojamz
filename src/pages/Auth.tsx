@@ -188,27 +188,45 @@ export default function Auth() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="pl-10"
+                      required
                     />
                   </div>
                 </div>
               </>
             )}
 
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="relative mt-1">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
-                  required
-                />
+            {mode === "register" ? (
+              <div>
+                <Label htmlFor="email">Email <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <Label htmlFor="identifier">Email ou Telefone</Label>
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="identifier"
+                    type="text"
+                    placeholder="seu@email.com ou +258 84 XXX XXXX"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+            )}
 
             <div>
               <Label htmlFor="password">Senha</Label>
