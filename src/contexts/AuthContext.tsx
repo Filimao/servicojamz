@@ -98,35 +98,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const normalizePhone = (raw: string) => {
+    const digits = raw.replace(/[^\d+]/g, "");
+    if (digits.startsWith("+")) return digits;
+    if (digits.startsWith("258")) return `+${digits}`;
+    if (digits.startsWith("8") && digits.length === 9) return `+258${digits}`;
+    return digits;
+  };
+
   const signUp = async (
-    email: string,
+    email: string | undefined,
     password: string,
     fullName: string,
-    phone?: string,
+    phone: string,
     userType: "client" | "provider" = "client"
   ) => {
-    const { error } = await supabase.auth.signUp({
-      email,
+    const normalizedPhone = normalizePhone(phone);
+    const payload: Parameters<typeof supabase.auth.signUp>[0] = {
       password,
       options: {
         emailRedirectTo: window.location.origin,
         data: {
           full_name: fullName,
-          phone,
+          phone: normalizedPhone,
           user_type: userType,
         },
       },
-    });
-
+    };
+    if (email && email.trim().length > 0) {
+      (payload as { email?: string }).email = email.trim();
+    } else {
+      (payload as { phone?: string }).phone = normalizedPhone;
+    }
+    const { error } = await supabase.auth.signUp(payload);
     return { error: error as Error | null };
   };
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
+  const signIn = async (identifier: string, password: string) => {
+    const isEmail = identifier.includes("@");
+    const { error } = await supabase.auth.signInWithPassword(
+      isEmail
+        ? { email: identifier, password }
+        : { phone: normalizePhone(identifier), password }
+    );
     return { error: error as Error | null };
   };
 
