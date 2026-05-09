@@ -21,6 +21,7 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   
   const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -31,12 +32,12 @@ export default function Auth() {
 
     try {
       if (mode === "login") {
-        const { error } = await signIn(email, password);
+        const { error } = await signIn(identifier, password);
         if (error) {
           toast({
             title: "Erro ao entrar",
             description: error.message === "Invalid login credentials" 
-              ? "Email ou senha incorretos" 
+              ? "Credenciais incorretas"
               : error.message,
             variant: "destructive",
           });
@@ -48,7 +49,16 @@ export default function Auth() {
           navigate("/");
         }
       } else {
-        const { error } = await signUp(email, password, fullName, phone, userType);
+        if (!phone || phone.trim().length < 6) {
+          toast({
+            title: "Telefone obrigatório",
+            description: "Insira o seu número de telefone para criar a conta.",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+        const { error } = await signUp(email || undefined, password, fullName, phone, userType);
         if (error) {
           toast({
             title: "Erro ao cadastrar",
@@ -178,27 +188,45 @@ export default function Auth() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="pl-10"
+                      required
                     />
                   </div>
                 </div>
               </>
             )}
 
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="relative mt-1">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
-                  required
-                />
+            {mode === "register" ? (
+              <div>
+                <Label htmlFor="email">Email <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <Label htmlFor="identifier">Email ou Telefone</Label>
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="identifier"
+                    type="text"
+                    placeholder="seu@email.com ou +258 84 XXX XXXX"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+            )}
 
             <div>
               <Label htmlFor="password">Senha</Label>
