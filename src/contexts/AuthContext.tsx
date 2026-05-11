@@ -23,6 +23,8 @@ interface AuthContextType {
   signIn: (identifier: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
+  normalizePhone: (raw: string) => string;
+  phoneToEmail: (phone: string) => string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -106,6 +108,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return digits;
   };
 
+  // Derive a stable fake email from phone (used when user signs up without email)
+  const phoneToEmail = (phone: string) => {
+    const normalized = normalizePhone(phone).replace(/[^\d]/g, "");
+    return `${normalized}@phone.servicoja.local`;
+  };
+
   const signUp = async (
     email: string | undefined,
     password: string,
@@ -114,6 +122,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userType: "client" | "provider" = "client"
   ) => {
     const normalizedPhone = normalizePhone(phone);
+    const effectiveEmail = (email && email.trim().length > 0)
+      ? email.trim()
+      : phoneToEmail(normalizedPhone);
     const options = {
       emailRedirectTo: window.location.origin,
       data: {
@@ -122,19 +133,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user_type: userType,
       },
     };
-    const { error } = email && email.trim().length > 0
-      ? await supabase.auth.signUp({ email: email.trim(), password, options })
-      : await supabase.auth.signUp({ phone: normalizedPhone, password, options });
+    const { error } = await supabase.auth.signUp({ email: effectiveEmail, password, options });
     return { error: error as Error | null };
   };
 
   const signIn = async (identifier: string, password: string) => {
     const isEmail = identifier.includes("@");
-    const { error } = await supabase.auth.signInWithPassword(
-      isEmail
-        ? { email: identifier, password }
-        : { phone: normalizePhone(identifier), password }
-    );
+    const emailToUse = isEmail ? identifier.trim() : phoneToEmail(identifier);
+    const { error } = await supabase.auth.signInWithPassword({ email: emailToUse, password });
     return { error: error as Error | null };
   };
 
@@ -156,6 +162,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signIn,
         signOut,
         refreshProfile,
+        normalizePhone,
+        phoneToEmail,
       }}
     >
       {children}
