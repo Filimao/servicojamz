@@ -98,7 +98,7 @@ export function useConversations() {
   useEffect(() => {
     if (!user) return;
     const channel = supabase
-      .channel("conversations")
+      .channel(`conversations:${user.id}`, { config: { private: true } })
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, () => {
         fetchConversations();
       })
@@ -140,7 +140,7 @@ export function useMessages(requestId: string | null) {
   useEffect(() => {
     if (!requestId || !user) return;
     const channel = supabase
-      .channel(`chat-${requestId}`)
+      .channel(`chat-${requestId}`, { config: { private: true } })
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `request_id=eq.${requestId}` }, (payload) => {
         const newMsg = payload.new as Message;
         setMessages((prev) => [...prev, newMsg]);
@@ -184,7 +184,7 @@ export function useTotalUnread() {
   useEffect(() => {
     if (!user) return;
     const channel = supabase
-      .channel("unread-count")
+      .channel(`unread:${user.id}`, { config: { private: true } })
       .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, () => fetch())
       .subscribe();
     return () => { supabase.removeChannel(channel); };
