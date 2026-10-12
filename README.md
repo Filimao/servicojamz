@@ -1,73 +1,57 @@
-# Welcome to your Lovable project
+# 🇲🇿 Serviço Já — Plataforma de Serviços em Moçambique
 
-## Project info
+O **Serviço Já** é uma plataforma digital desenvolvida para conectar clientes a profissionais prestadores de serviços em Moçambique, tornando mais fácil encontrar, solicitar e contratar serviços de diferentes áreas através de um único lugar.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A plataforma foi concebida para simplificar a procura por profissionais, ajudar os prestadores a divulgar os seus trabalhos e criar novas oportunidades de rendimento, utilizando a tecnologia para aproximar quem precisa de um serviço de quem está preparado para o realizar.
 
-## How can I edit this code?
+## 🎯 Objetivo do Projeto
 
-There are several ways of editing your application.
+O objetivo do Serviço Já é facilitar o acesso a serviços profissionais, promover o empreendedorismo digital e contribuir para a geração de oportunidades de trabalho em Moçambique, através de uma plataforma prática, moderna e acessível.
 
-**Use Lovable**
+## ✨ Principais Funcionalidades
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- **Registo e autenticação:** acesso personalizado para clientes e prestadores de serviços.
+- **Pesquisa de profissionais:** possibilidade de encontrar prestadores de acordo com as categorias de serviços disponíveis.
+- **Solicitação de serviços:** os clientes podem enviar pedidos aos profissionais.
+- **Gestão de pedidos:** os prestadores podem aceitar ou recusar solicitações recebidas.
+- **Perfis profissionais:** apresentação de informações, competências, serviços e trabalhos realizados.
+- **Galeria de trabalhos:** possibilidade de divulgar imagens de serviços executados.
+- **Painel do profissional:** acompanhamento de pedidos, estatísticas e informações sobre o plano de utilização.
+- **Planos Premium:** estrutura de funcionalidades e opções de subscrição para profissionais.
+- **Pagamentos digitais:** integração planeada ou em desenvolvimento com M-Pesa e e-Mola, conforme a configuração atual.
+- **Design responsivo:** interface adaptada a computadores, tablets e dispositivos móveis.
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Tecnologias
 
-**Use your preferred IDE**
+O projeto utiliza uma arquitetura web moderna. As tecnologias e os serviços exatos devem ser confirmados de acordo com a versão atual do código.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Frontend:** interface web moderna e responsiva.
+- **Backend e base de dados:** suporte à autenticação, aos perfis e à gestão de solicitações.
+- **Vercel:** alojamento e publicação da aplicação web.
+- **Integrações externas:** possibilidade de utilização de serviços de comunicação, notificações e pagamentos digitais.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🇲🇿 Desenvolvido para Moçambique
 
-Follow these steps:
+O Serviço Já tem como foco o mercado moçambicano, procurando responder às necessidades de clientes e profissionais locais, com uma experiência simples e adaptada ao contexto digital do país.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+A plataforma pretende apoiar profissionais independentes, técnicos, empreendedores e pequenos prestadores de serviços na divulgação das suas competências e na conquista de novos clientes.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Visão do Projeto
 
-# Step 3: Install the necessary dependencies.
-npm i
+Construir um ecossistema digital de serviços que facilite as contratações, incentive o empreendedorismo e contribua para a transformação digital de Moçambique.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🌐 Aceder à Plataforma
 
-**Edit a file directly in GitHub**
+**Website:** https://servicojamz.vercel.app/
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📌 Estado do Projeto
 
-**Use GitHub Codespaces**
+O Serviço Já encontra-se em desenvolvimento e evolução contínua, com foco na melhoria da experiência do utilizador, na gestão de solicitações, na comunicação entre clientes e profissionais e na integração de funcionalidades digitais.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## ⚠️ Nota
 
-## What technologies are used for this project?
+As funcionalidades disponíveis dependem da versão atualmente publicada e das integrações efetivamente configuradas.
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+**Serviço Já — Encontre profissionais. Solicite serviços. Resolva com facilidade.** 🇲🇿
