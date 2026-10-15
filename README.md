@@ -1,57 +1,89 @@
-# 🇲🇿 Serviço Já — Plataforma de Serviços em Moçambique
+# 🇲🇿 Serviço Já — Encontre Profissionais em Moçambique
 
-O **Serviço Já** é uma plataforma digital desenvolvida para conectar clientes a profissionais prestadores de serviços em Moçambique, tornando mais fácil encontrar, solicitar e contratar serviços de diferentes áreas através de um único lugar.
+Plataforma web que liga clientes a profissionais prestadores de serviços. O cliente procura, pede e acompanha o serviço num só lugar, e o profissional divulga o seu trabalho e recebe novos pedidos.
 
-A plataforma foi concebida para simplificar a procura por profissionais, ajudar os prestadores a divulgar os seus trabalhos e criar novas oportunidades de rendimento, utilizando a tecnologia para aproximar quem precisa de um serviço de quem está preparado para o realizar.
+🔗 **Demo online:** [servicojamz.vercel.app](https://servicojamz.vercel.app)
 
-## 🎯 Objetivo do Projeto
 
-O objetivo do Serviço Já é facilitar o acesso a serviços profissionais, promover o empreendedorismo digital e contribuir para a geração de oportunidades de trabalho em Moçambique, através de uma plataforma prática, moderna e acessível.
+## 🎯 Objetivo
 
-## ✨ Principais Funcionalidades
+Facilitar o acesso a serviços profissionais e dar a técnicos, empreendedores e pequenos prestadores uma forma simples de mostrar as suas competências e conquistar novos clientes.
 
-- **Registo e autenticação:** acesso personalizado para clientes e prestadores de serviços.
-- **Pesquisa de profissionais:** possibilidade de encontrar prestadores de acordo com as categorias de serviços disponíveis.
-- **Solicitação de serviços:** os clientes podem enviar pedidos aos profissionais.
-- **Gestão de pedidos:** os prestadores podem aceitar ou recusar solicitações recebidas.
-- **Perfis profissionais:** apresentação de informações, competências, serviços e trabalhos realizados.
-- **Galeria de trabalhos:** possibilidade de divulgar imagens de serviços executados.
-- **Painel do profissional:** acompanhamento de pedidos, estatísticas e informações sobre o plano de utilização.
-- **Planos Premium:** estrutura de funcionalidades e opções de subscrição para profissionais.
-- **Pagamentos digitais:** integração planeada ou em desenvolvimento com M-Pesa e e-Mola, conforme a configuração atual.
-- **Design responsivo:** interface adaptada a computadores, tablets e dispositivos móveis.
+## ✨ Funcionalidades
+
+**Para clientes**
+- Registo e autenticação.
+- Pesquisa de profissionais por categoria de serviço.
+- Envio de pedidos de serviço aos profissionais.
+
+**Para profissionais**
+- Perfil profissional com informações, competências e serviços.
+- Galeria de trabalhos realizados.
+- Gestão de pedidos: aceitar ou recusar solicitações recebidas.
+- Painel com pedidos, estatísticas e informações do plano de utilização.
+- Estrutura de planos Premium com opções de subscrição.
+
+**Geral**
+- Design responsivo para telemóvel, tablet e computador.
+- Pagamentos digitais com M-Pesa e e-Mola em planeamento / desenvolvimento.
 
 ## 🛠️ Tecnologias
 
-O projeto utiliza uma arquitetura web moderna. As tecnologias e os serviços exatos devem ser confirmados de acordo com a versão atual do código.
+| Área | Ferramentas |
+|------|-------------|
+| Interface | React, TypeScript, Vite, Tailwind CSS, shadcn/ui (Radix UI) |
+| Navegação e dados | React Router, TanStack Query |
+| Backend e dados | Supabase (autenticação e PostgreSQL) |
+| Formulários e gráficos | React Hook Form, Zod, Recharts |
+| Testes | Vitest, Testing Library |
+| Publicação | Vercel |
 
-- **Frontend:** interface web moderna e responsiva.
-- **Backend e base de dados:** suporte à autenticação, aos perfis e à gestão de solicitações.
-- **Vercel:** alojamento e publicação da aplicação web.
-- **Integrações externas:** possibilidade de utilização de serviços de comunicação, notificações e pagamentos digitais.
+## 🚀 Como correr localmente
 
-## 🇲🇿 Desenvolvido para Moçambique
+Requisitos: Node.js 18+ (ou Bun) e um projeto no [Supabase](https://supabase.com).
 
-O Serviço Já tem como foco o mercado moçambicano, procurando responder às necessidades de clientes e profissionais locais, com uma experiência simples e adaptada ao contexto digital do país.
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/Filimao/servicojamz.git
+cd servicojamz
 
-A plataforma pretende apoiar profissionais independentes, técnicos, empreendedores e pequenos prestadores de serviços na divulgação das suas competências e na conquista de novos clientes.
+# 2. Instalar as dependências
+npm install
 
-## 🚀 Visão do Projeto
+# 3. Criar o ficheiro .env na raiz do projeto (veja abaixo)
 
-Construir um ecossistema digital de serviços que facilite as contratações, incentive o empreendedorismo e contribua para a transformação digital de Moçambique.
+# 4. Iniciar em modo de desenvolvimento
+npm run dev
+```
 
-## 🌐 Aceder à Plataforma
+Variáveis de ambiente do ficheiro `.env`:
 
-**Website:** https://servicojamz.vercel.app/
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_PROJECT_ID=
+```
 
-## 📌 Estado do Projeto
+> O ficheiro `.env` não deve ser enviado para o GitHub. Use apenas a chave pública (publishable / `anon`) do Supabase e nunca coloque chaves secretas no código do cliente.
 
-O Serviço Já encontra-se em desenvolvimento e evolução contínua, com foco na melhoria da experiência do utilizador, na gestão de solicitações, na comunicação entre clientes e profissionais e na integração de funcionalidades digitais.
+Outros comandos:
 
-## ⚠️ Nota
+```bash
+npm run build    # gerar a versão de produção
+npm run preview  # pré-visualizar a versão de produção
+npm run test     # correr os testes (Vitest)
+npm run lint     # verificar o código
+```
 
-As funcionalidades disponíveis dependem da versão atualmente publicada e das integrações efetivamente configuradas.
+## 📌 Estado do projeto
 
----
+Em desenvolvimento contínuo, com foco na experiência do utilizador, na gestão de pedidos, na comunicação entre clientes e profissionais e na integração de pagamentos digitais. As funcionalidades disponíveis dependem da versão publicada.
 
-**Serviço Já — Encontre profissionais. Solicite serviços. Resolva com facilidade.** 🇲🇿
+## ⚠️ Aviso
+
+O Serviço Já é uma plataforma independente. A disponibilidade de pagamentos e de outras integrações depende da configuração atual do projeto.
+
+## 👤 Autor
+
+**Filimão Feliz Mondlane** — Full-Stack Developer, Maputo, Moçambique
+[GitHub](https://github.com/Filimao) · [LinkedIn](https://linkedin.com/in/filimaomondlane)
