@@ -4,32 +4,65 @@ import { useAuth } from "@/contexts/AuthContext";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home } from "lucide-react";
+import { LogOut, Home, Loader2, ShieldAlert } from "lucide-react";
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 export function AdminLayout({ children }: AdminLayoutProps) {
-  const { user, isAdmin, isLoading, signOut } = useAuth();
+  const { user, isAdmin, isLoading, isAdminLoading, adminCheckError, signOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && (!user || !isAdmin)) {
-      navigate("/");
+    if (!isLoading && !user) {
+      navigate("/auth", { replace: true });
     }
-  }, [user, isAdmin, isLoading, navigate]);
+  }, [user, isAdmin, isLoading, isAdminLoading, adminCheckError, navigate]);
 
-  if (isLoading) {
+  if (isLoading || isAdminLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-pulse text-muted-foreground">A carregar...</div>
+        <Loader2 className="w-8 h-8 animate-spin text-primary" aria-label="A verificar acesso administrativo" />
+      </div>
+    );
+  }
+
+  if (adminCheckError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
+        <div className="max-w-md text-center">
+          <ShieldAlert className="w-10 h-10 text-warning mx-auto mb-4" />
+          <h1 className="text-xl font-semibold mb-2">Não foi possível verificar o acesso</h1>
+          <p className="text-muted-foreground mb-5">A sessão pode ter expirado. Entre novamente e tente abrir o painel.</p>
+          <Button onClick={async () => { await signOut(); navigate("/auth", { replace: true }); }}>
+            <LogOut className="w-4 h-4 mr-2" />
+            Sair e entrar novamente
+          </Button>
+        </div>
       </div>
     );
   }
 
   if (!user || !isAdmin) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
+        <div className="max-w-md text-center">
+          <ShieldAlert className="w-10 h-10 text-warning mx-auto mb-4" />
+          <h1 className="text-xl font-semibold mb-2">Esta conta não tem acesso administrativo</h1>
+          <p className="text-muted-foreground mb-2">Conta atual: {user?.email || "não autenticada"}</p>
+          <p className="text-muted-foreground mb-5">O acesso depende do papel admin atribuído no Supabase.</p>
+          <div className="flex justify-center gap-3">
+            <Button variant="outline" asChild>
+              <Link to="/"><Home className="w-4 h-4 mr-2" />Voltar ao site</Link>
+            </Button>
+            <Button onClick={async () => { await signOut(); navigate("/auth", { replace: true }); }}>
+              <LogOut className="w-4 h-4 mr-2" />Sair
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

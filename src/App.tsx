@@ -30,11 +30,13 @@ import ProviderDashboard from "./pages/ProviderDashboard";
 import Chat from "./pages/Chat";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
     <AuthProvider>
       <TooltipProvider>
         <Toaster />
@@ -76,6 +78,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

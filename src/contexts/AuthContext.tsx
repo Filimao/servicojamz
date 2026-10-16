@@ -18,6 +18,8 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   isAdmin: boolean;
+  isAdminLoading: boolean;
+  adminCheckError: Error | null;
   isLoading: boolean;
   signUp: (email: string | undefined, password: string, fullName: string, phone: string, userType?: "client" | "provider") => Promise<{ error: Error | null }>;
   signIn: (identifier: string, password: string) => Promise<{ error: Error | null }>;
@@ -34,28 +36,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminLoading, setIsAdminLoading] = useState(false);
+  const [adminCheckError, setAdminCheckError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchProfile = async (userId: string) => {
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("user_id", userId)
-      .maybeSingle();
+    setIsAdminLoading(true);
+    setAdminCheckError(null);
+    try {
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", userId)
+        .maybeSingle();
 
-    if (profileData) {
-      setProfile(profileData as Profile);
+      if (!profileError && profileData) {
+        setProfile(profileData as Profile);
+      }
+
+      const { data: roleData, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (roleError) throw roleError;
+      setIsAdmin(!!roleData);
+    } catch (error) {
+      setIsAdmin(false);
+      setAdminCheckError(error instanceof Error ? error : new Error("Falha ao verificar permissões."));
+    } finally {
+      setIsAdminLoading(false);
     }
-
-    // Check admin role
-    const { data: roleData } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle();
-
-    setIsAdmin(!!roleData);
   };
 
   const refreshProfile = async () => {
@@ -79,6 +92,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           setProfile(null);
           setIsAdmin(false);
+          setIsAdminLoading(false);
+          setAdminCheckError(null);
         }
         setIsLoading(false);
       }
@@ -91,6 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (session?.user) {
         fetchProfile(session.user.id);
+      } else {
+        setIsAdminLoading(false);
       }
       setIsLoading(false);
     });
@@ -148,6 +165,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
     setProfile(null);
     setIsAdmin(false);
+    setIsAdminLoading(false);
+    setAdminCheckError(null);
   };
 
   return (
@@ -157,6 +176,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         profile,
         isAdmin,
+        isAdminLoading,
+        adminCheckError,
         isLoading,
         signUp,
         signIn,

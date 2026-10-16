@@ -1,18 +1,22 @@
 import { useState, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCategories } from "@/hooks/useCategories";
-import { useProviders, ProviderWithProfile } from "@/hooks/useProviders";
+import { useProviders } from "@/hooks/useProviders";
 import { Search, MapPin, Star, Filter, X } from "lucide-react";
 import { cities } from "@/data/mockData";
 import { ProviderCardDB } from "@/components/providers/ProviderCardDB";
 import { ProviderCardSkeleton } from "@/components/providers/ProviderCardSkeleton";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { createDemoProviders } from "@/data/demoProviders";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Services() {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get("category") || "";
   const initialCity = searchParams.get("city") || "";
@@ -24,12 +28,48 @@ export default function Services() {
   const [showFilters, setShowFilters] = useState(false);
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
-  const { data: providers, isLoading: providersLoading } = useProviders({
+  const {
+    data: providers,
+    isLoading: providersLoading,
+    isError: providersError,
+    refetch: retryProviders,
+    error: providersQueryError,
+  } = useProviders({
     categoryId: selectedCategory || undefined,
     city: selectedCity || undefined,
     minRating: minRating || undefined,
     searchQuery: searchQuery || undefined,
   });
+  const sessionExpired = providersError &&
+    (providersQueryError as { code?: string; message?: string } | null)?.code === "PGRST303";
+
+  const reauthenticate = async () => {
+    await signOut();
+    navigate("/auth");
+  };
+  const demoProviders = useMemo(() => createDemoProviders(categories || []), [categories]);
+  const matchingDemoProviders = useMemo(() => demoProviders.filter((provider) => {
+    if (selectedCategory && provider.category_id !== selectedCategory) return false;
+    if (selectedCity) return false;
+    if (minRating > 0) return false;
+    if (!searchQuery) return true;
+
+    const search = searchQuery.toLowerCase();
+    return [
+      provider.profile.full_name,
+      provider.category.name,
+      provider.description || "",
+      ...provider.services,
+    ].some((value) => value.toLowerCase().includes(search));
+  }), [demoProviders, minRating, searchQuery, selectedCategory, selectedCity]);
+  const showingDemoProviders = !providersLoading && !providersError && !providers?.length;
+  const visibleProviders = providersError
+    ? []
+    : providers?.length
+      ? providers
+      : showingDemoProviders
+        ? matchingDemoProviders
+        : [];
 
   const clearFilters = () => {
     setSelectedCategory("");
@@ -203,6 +243,10 @@ export default function Services() {
               <h2 className="text-lg font-semibold text-foreground">
                 {providersLoading ? (
                   "Carregando..."
+                ) : providersError ? (
+                  "Lista indisponível"
+                ) : showingDemoProviders ? (
+                  `${visibleProviders.length} perfil${visibleProviders.length !== 1 ? "is" : ""} de demonstração`
                 ) : (
                   <>
                     {providers?.length || 0} profissional
@@ -223,7 +267,23 @@ export default function Services() {
             )}
 
             {/* Empty State */}
-            {!providersLoading && providers?.length === 0 && (
+            {!providersLoading && providersError && (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-semibold text-foreground mb-2">Não foi possível carregar os profissionais</h3>
+                <p className="text-muted-foreground mb-5">
+                  {sessionExpired
+                    ? "A sua sessão expirou. Entre novamente para carregar os prestadores."
+                    : "Verifique a ligação e tente novamente."}
+                </p>
+                {sessionExpired ? (
+                  <Button variant="outline" onClick={reauthenticate}>Sair e entrar novamente</Button>
+                ) : (
+                  <Button variant="outline" onClick={() => retryProviders()}>Tentar novamente</Button>
+                )}
+              </div>
+            )}
+
+            {!providersLoading && !providersError && visibleProviders.length === 0 && (
               <div className="text-center py-20">
                 <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                   <Search className="w-10 h-10 text-muted-foreground" />
@@ -244,9 +304,15 @@ export default function Services() {
             )}
 
             {/* Providers Grid */}
-            {!providersLoading && providers && providers.length > 0 && (
+            {!providersLoading && visibleProviders.length > 0 && (
+              <>
+                {showingDemoProviders && (
+                  <p className="mb-5 rounded-md border border-border bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+                    Perfis de demonstração: são exemplos visuais e não representam prestadores reais nem aceitam contacto.
+                  </p>
+                )}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {providers.map((provider, index) => (
+                {visibleProviders.map((provider, index) => (
                   <div
                     key={provider.id}
                     className="animate-slide-up"
@@ -256,6 +322,7 @@ export default function Services() {
                   </div>
                 ))}
               </div>
+              </>
             )}
           </div>
         </section>

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { NotificationBell } from "@/components/NotificationBell";
 import { usePlatformSettings } from "@/hooks/usePlatformSettings";
+import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,9 +24,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
-      <div className="container-app">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
+      <div className="container-app max-w-[90rem]">
+        <div className="flex items-center justify-between gap-4 h-16">
+          <Link to="/" className="flex shrink-0 items-center gap-2">
             {logoUrl ? (
               <img src={logoUrl} alt={platformName} className="w-10 h-10 rounded-xl object-cover" />
             ) : (
@@ -36,13 +37,14 @@ export function Header() {
             <span className="font-bold text-xl text-foreground">{platformName}</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-5 whitespace-nowrap">
             <Link to="/services" className="text-muted-foreground hover:text-foreground transition-colors font-medium">Serviços</Link>
             <Link to="/como-funciona" className="text-muted-foreground hover:text-foreground transition-colors font-medium">Como Funciona</Link>
             <Link to="/para-profissionais" className="text-muted-foreground hover:text-foreground transition-colors font-medium">Para Profissionais</Link>
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-3 whitespace-nowrap">
+            <ThemeSwitcher />
             <Link to="/services">
               <Button variant="ghost" size="sm"><Search className="w-4 h-4 mr-2" />Buscar</Button>
             </Link>
@@ -84,14 +86,23 @@ export function Header() {
             )}
           </div>
 
-          <button className="md:hidden p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button
+            type="button"
+            className="xl:hidden min-h-11 min-w-11 inline-flex items-center justify-center rounded-md text-foreground hover:bg-muted"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={isMenuOpen}
+          >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-slide-up">
+          <div className="xl:hidden py-4 border-t border-border animate-slide-up">
             <nav className="flex flex-col gap-2">
+              <div className="px-4 py-2">
+                <ThemeSwitcher fullWidth />
+              </div>
               <Link to="/services" className="px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Serviços</Link>
               <Link to="/como-funciona" className="px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Como Funciona</Link>
               <Link to="/para-profissionais" className="px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Para Profissionais</Link>

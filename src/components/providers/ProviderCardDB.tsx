@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { ProviderWithProfile } from "@/hooks/useProviders";
-import { Star, MapPin, Phone, CheckCircle, BadgeCheck, MessageCircle, DollarSign } from "lucide-react";
+import { Star, MapPin, Phone, CheckCircle, BadgeCheck, MessageCircle, DollarSign, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { Badge } from "@/components/ui/badge";
 
 interface ProviderCardDBProps {
   provider: ProviderWithProfile;
@@ -22,18 +23,23 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
     }
   };
 
-  return (
-    <Link to={`/profissional/${provider.id}`} className="block h-full">
+  const card = (
       <div className="card-interactive p-4 sm:p-5 h-full flex flex-col hover:shadow-lg transition-shadow">
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
           {/* Avatar */}
           <div className="relative">
-            <img
-              src={provider.profile?.avatar_url || defaultAvatar}
-              alt={provider.profile?.full_name}
-              className="w-16 h-16 rounded-xl object-cover"
-            />
+            {provider.is_demo ? (
+              <div className="w-16 h-16 rounded-xl bg-muted flex items-center justify-center">
+                <UserRound className="w-8 h-8 text-muted-foreground" />
+              </div>
+            ) : (
+              <img
+                src={provider.profile?.avatar_url || defaultAvatar}
+                alt={provider.profile?.full_name}
+                className="w-16 h-16 rounded-xl object-cover"
+              />
+            )}
             {provider.is_verified && (
               <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
                 <CheckCircle className="w-4 h-4 text-secondary-foreground" />
@@ -53,19 +59,21 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
                   Premium
                 </span>
               )}
+              {provider.is_demo && <Badge variant="outline">Demonstração</Badge>}
+              {provider.is_registered && <Badge variant="secondary">Prestador aprovado</Badge>}
             </div>
             
             <p className="text-sm text-primary font-medium mt-0.5">
               <CategoryIcon icon={provider.category?.icon} className="inline w-4 h-4 mr-1" />{provider.category?.name}
             </p>
             
-            <div className="flex items-center gap-1 mt-1">
+            {!provider.is_demo && <div className="flex items-center gap-1 mt-1">
               <Star className="w-4 h-4 fill-warning text-warning" />
               <span className="font-semibold text-foreground">{provider.rating || "0.0"}</span>
               <span className="text-sm text-muted-foreground">
                 ({provider.review_count || 0} avaliações)
               </span>
-            </div>
+            </div>}
           </div>
         </div>
 
@@ -108,24 +116,28 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
         )}
 
         {/* Price Range */}
-        {provider.price_range && (
+        {!provider.is_demo && provider.price_range && (
           <div className="text-sm font-medium text-foreground mb-4">
             <DollarSign className="inline w-4 h-4 mr-1" />{provider.price_range}
           </div>
         )}
 
         {/* Stats */}
-        <div className="flex gap-4 text-xs text-muted-foreground mb-4">
+        {!provider.is_demo && <div className="flex gap-4 text-xs text-muted-foreground mb-4">
           {provider.years_experience > 0 && (
             <span>{provider.years_experience} anos de exp.</span>
           )}
           {provider.completed_jobs > 0 && (
             <span>{provider.completed_jobs} trabalhos</span>
           )}
-        </div>
+        </div>}
 
         {/* Actions */}
-        <div className="flex gap-2 mt-auto pt-2">
+        {provider.is_demo ? (
+          <p className="mt-auto border-t border-border pt-3 text-xs text-muted-foreground">
+            Perfil ilustrativo, sem contacto ou profissional associado.
+          </p>
+        ) : <div className="flex gap-2 mt-auto pt-2">
           <Button variant="outline" className="flex-1 min-h-[44px]">
             Ver Perfil
           </Button>
@@ -133,8 +145,11 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
             <MessageCircle className="w-4 h-4" />
             WhatsApp
           </Button>
-        </div>
+        </div>}
       </div>
-    </Link>
   );
+
+  return provider.is_demo
+    ? <div className="block h-full">{card}</div>
+    : <Link to={`/profissional/${provider.id}`} className="block h-full">{card}</Link>;
 }

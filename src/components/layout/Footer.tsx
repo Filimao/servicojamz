@@ -123,6 +123,13 @@ export function Footer() {
           </div>
         </div>
 
+        <p className="mt-8 text-xs text-background/50">
+          Foto de capa: <a href="https://commons.wikimedia.org/wiki/File:Wiki_Loves_Africa._Light_technician_at_work.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-background">Vision2divinity / Wikimedia Commons</a>
+          {" · "}
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-background">CC BY-SA 4.0</a>
+          {" · imagem reenquadrada"}
+        </p>
+
         {/* Bottom Bar */}
         <div className="border-t border-background/20 mt-10 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">

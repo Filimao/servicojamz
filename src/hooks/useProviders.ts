@@ -14,6 +14,8 @@ export interface ProviderWithProfile {
   rating: number;
   review_count: number;
   completed_jobs: number;
+  is_demo?: boolean;
+  is_registered?: boolean;
   profile: {
     full_name: string;
     avatar_url: string | null;

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -56,6 +55,74 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  :root[data-theme="mare"] {
+    --background: 190 35% 97%;
+    --foreground: 202 32% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 202 32% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 202 32% 16%;
+    --primary: 190 78% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 76% 46%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 187 23% 92%;
+    --muted-foreground: 200 13% 39%;
+    --accent: 46 92% 53%;
+    --accent-foreground: 202 32% 16%;
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 188 17% 85%;
+    --input: 188 17% 85%;
+    --ring: 190 78% 30%;
+    --success: 150 55% 32%;
+    --warning: 38 88% 48%;
+    --info: 199 72% 43%;
+    --sidebar-background: 190 30% 96%;
+    --sidebar-foreground: 202 32% 16%;
+    --sidebar-primary: 190 78% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 187 23% 92%;
+    --sidebar-accent-foreground: 202 32% 16%;
+    --sidebar-border: 188 17% 85%;
+    --sidebar-ring: 190 78% 30%;
+    --radius: 0.75rem;
+  }
+
+  :root[data-theme="baoba"] {
+    --background: 39 31% 97%;
+    --foreground: 150 18% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 150 18% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 18% 16%;
+    --primary: 146 48% 29%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 11 65% 44%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 39 22% 91%;
+    --muted-foreground: 150 9% 39%;
+    --accent: 43 91% 51%;
+    --accent-foreground: 150 18% 16%;
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 38 17% 84%;
+    --input: 38 17% 84%;
+    --ring: 146 48% 29%;
+    --success: 146 48% 29%;
+    --warning: 38 82% 46%;
+    --info: 199 72% 43%;
+    --sidebar-background: 39 29% 95%;
+    --sidebar-foreground: 150 18% 16%;
+    --sidebar-primary: 146 48% 29%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 39 22% 91%;
+    --sidebar-accent-foreground: 150 18% 16%;
+    --sidebar-border: 38 17% 84%;
+    --sidebar-ring: 146 48% 29%;
+    --radius: 0.75rem;
+  }
+
   .dark {
     --background: 0 0% 8%;
     --foreground: 0 0% 98%;
@@ -104,8 +171,17 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', 'DM Sans', sans-serif;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 
   /* Reserve space for mobile bottom nav */
@@ -117,6 +193,20 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -139,22 +229,22 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(0 65% 50%) 0%, hsl(0 70% 40%) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
   }
 
   .gradient-trust {
-    background: linear-gradient(135deg, hsl(120 100% 20%) 0%, hsl(120 70% 28%) 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background: linear-gradient(135deg, hsl(0 65% 50%) 0%, hsl(120 100% 20%) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
   }
 
   .badge-premium {
     @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold;
-    background: hsl(45 100% 51%);
-    color: hsl(0 0% 13%);
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
 
   .badge-verified {
@@ -223,5 +313,16 @@
 
   .animate-wa-pulse {
     animation: wa-pulse 2s ease-in-out infinite;
+  }
+}
+
+@media (max-width: 639px) {
+  .container-app {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  main {
+    min-width: 0;
   }
 }

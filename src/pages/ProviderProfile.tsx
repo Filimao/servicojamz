@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -29,10 +29,11 @@ import { CategoryIcon } from "@/components/CategoryIcon";
 
 export default function ProviderProfile() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   // Fetch provider data
-  const { data: provider, isLoading } = useQuery({
+  const { data: provider, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["provider", id],
     queryFn: async () => {
       // First get the provider profile
@@ -64,6 +65,13 @@ export default function ProviderProfile() {
     },
     enabled: !!id
   });
+  const profileUnavailable = isError && (error as { code?: string } | null)?.code !== "PGRST116";
+  const sessionExpired = profileUnavailable && (error as { code?: string } | null)?.code === "PGRST303";
+
+  const reauthenticate = async () => {
+    await signOut();
+    navigate("/auth");
+  };
 
   // Fetch reviews
   const { data: reviews } = useQuery({
@@ -129,19 +137,37 @@ export default function ProviderProfile() {
     );
   }
 
-  if (!provider) {
+  if (profileUnavailable || !provider) {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 py-12">
           <div className="container-app text-center">
-            <h1 className="text-2xl font-bold mb-4">Profissional não encontrado</h1>
-            <Button asChild>
-              <Link to="/services">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar aos Serviços
-              </Link>
-            </Button>
+            <h1 className="text-2xl font-bold mb-4">
+              {profileUnavailable ? "Não foi possível carregar este perfil" : "Profissional não encontrado"}
+            </h1>
+            {profileUnavailable && (
+              <p className="text-muted-foreground mb-5">
+                {sessionExpired
+                  ? "A sua sessão expirou. Entre novamente para abrir este perfil."
+                  : "Verifique a ligação e tente novamente."}
+              </p>
+            )}
+            <div className="flex flex-wrap justify-center gap-3">
+              {profileUnavailable && (
+                sessionExpired ? (
+                  <Button variant="outline" onClick={reauthenticate}>Sair e entrar novamente</Button>
+                ) : (
+                  <Button variant="outline" onClick={() => refetch()}>Tentar novamente</Button>
+                )
+              )}
+              <Button asChild>
+                <Link to="/services">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Voltar aos Serviços
+                </Link>
+              </Button>
+            </div>
           </div>
         </main>
         <Footer />

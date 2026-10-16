@@ -1,5 +1,4 @@
-
--- 1. Restrict profiles SELECT to authenticated users (was: public USING true)
+  Restrict profiles SELECT to authenticated users (was: public USING true)
 DROP POLICY IF EXISTS "Profiles are viewable by everyone" ON public.profiles;
 
 CREATE POLICY "Authenticated users can view profiles"
@@ -52,7 +51,6 @@ BEGIN
 END;
 $$;
 
--- 3. Allow reporters to view their own reports (defense in depth)
 CREATE POLICY "Reporters can view their own reports"
 ON public.reports FOR SELECT
 TO authenticated
