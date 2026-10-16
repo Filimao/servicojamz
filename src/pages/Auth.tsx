@@ -24,6 +24,7 @@ export default function Auth() {
   const [registerStep, setRegisterStep] = useState<RegisterStep>("form");
   const [userType, setUserType] = useState<UserType>("client");
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [identifier, setIdentifier] = useState("");
@@ -45,6 +46,24 @@ export default function Auth() {
       return "Telefone inválido. Use o formato +258 84 XXX XXXX";
     }
     return null;
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin },
+      });
+      if (error) throw error;
+    } catch (error) {
+      toast({
+        title: "Não foi possível continuar com Google",
+        description: error instanceof Error ? error.message : "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+      setIsGoogleLoading(false);
+    }
   };
 
   const requestOtp = async (targetPhone: string) => {
@@ -199,6 +218,32 @@ export default function Auth() {
                 <p className="text-xs text-muted-foreground mt-1">Ofereço serviços</p>
               </button>
             </div>
+          )}
+
+          {mode === "login" && (
+            <>
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full bg-card"
+                onClick={handleGoogleSignIn}
+                disabled={isLoading || isGoogleLoading}
+              >
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z" />
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.74 7.18l7.66 5.94c4.47-4.13 7.12-10.2 7.12-17.59Z" />
+                  <path fill="#FBBC05" d="M10.53 28.59a14.4 14.4 0 0 1 0-9.18l-7.98-6.19a23.9 23.9 0 0 0 0 21.56l7.98-6.19Z" />
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.86l-7.66-5.94c-2.13 1.43-4.86 2.28-8.25 2.28-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z" />
+                </svg>
+                {isGoogleLoading ? "A ligar ao Google..." : "Continuar com Google"}
+              </Button>
+              <div className="flex items-center gap-3 py-1" aria-hidden="true">
+                <span className="h-px flex-1 bg-border" />
+                <span className="text-xs text-muted-foreground">ou use email/telefone</span>
+                <span className="h-px flex-1 bg-border" />
+              </div>
+            </>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
