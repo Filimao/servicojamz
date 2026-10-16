@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, Search, LogOut, Shield, Briefcase, FileText } from "lucide-react";
+import { Menu, X, User, Search, LogOut, Shield, Briefcase, FileText, Handshake } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { NotificationBell } from "@/components/NotificationBell";
@@ -30,7 +30,7 @@ export function Header() {
               <img src={logoUrl} alt={platformName} className="w-10 h-10 rounded-xl object-cover" />
             ) : (
               <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center">
-                <span className="text-xl">🤝</span>
+                <Handshake className="w-6 h-6 text-primary-foreground" />
               </div>
             )}
             <span className="font-bold text-xl text-foreground">{platformName}</span>

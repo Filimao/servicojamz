@@ -11,6 +11,7 @@ import {
   FileText,
   AlertTriangle,
   Wallet,
+  Shield,
 } from "lucide-react";
 import {
   Sidebar,
@@ -49,7 +50,7 @@ export function AdminSidebar() {
         {!collapsed && (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg gradient-hero flex items-center justify-center">
-              <span className="text-sm">🛡️</span>
+              <Shield className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="font-bold text-foreground">Admin</span>
           </div>

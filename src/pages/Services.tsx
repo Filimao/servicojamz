@@ -10,6 +10,7 @@ import { Search, MapPin, Star, Filter, X } from "lucide-react";
 import { cities } from "@/data/mockData";
 import { ProviderCardDB } from "@/components/providers/ProviderCardDB";
 import { ProviderCardSkeleton } from "@/components/providers/ProviderCardSkeleton";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 export default function Services() {
   const [searchParams] = useSearchParams();
@@ -98,7 +99,7 @@ export default function Services() {
                         <option value="">Todas as categorias</option>
                         {categories?.map((cat) => (
                           <option key={cat.id} value={cat.id}>
-                            {cat.icon} {cat.name}
+                            {cat.name}
                           </option>
                         ))}
                       </select>
@@ -186,7 +187,7 @@ export default function Services() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className="flex-shrink-0 gap-2"
                 >
-                  <span>{cat.icon}</span>
+                  <CategoryIcon icon={cat.icon} className="w-4 h-4" />
                   {cat.name}
                 </Button>
               ))}

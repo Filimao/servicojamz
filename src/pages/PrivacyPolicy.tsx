@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Mail, MessageCircle } from "lucide-react";
 
 export default function PrivacyPolicy() {
   return (
@@ -110,8 +111,8 @@ export default function PrivacyPolicy() {
                 Para questões sobre privacidade, entre em contacto:
               </p>
               <ul className="list-none mt-2 text-muted-foreground space-y-1">
-                <li>📧 Email: filimaofelix10@gmail.com</li>
-                <li>📱 WhatsApp: +258 879 132 543</li>
+                <li className="flex items-center gap-2"><Mail className="w-4 h-4" />Email: filimaofelix10@gmail.com</li>
+                <li className="flex items-center gap-2"><MessageCircle className="w-4 h-4" />WhatsApp: +258 879 132 543</li>
               </ul>
             </section>
           </div>

@@ -22,8 +22,10 @@ import {
   Send,
   Loader2,
   ArrowLeft,
-  CheckCircle
+  CheckCircle,
+  Image
 } from "lucide-react";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 export default function ProviderProfile() {
   const { id } = useParams();
@@ -195,7 +197,7 @@ export default function ProviderProfile() {
                       </div>
 
                       <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                        <span>{category?.icon}</span>
+                        <CategoryIcon icon={category?.icon} className="w-4 h-4" />
                         <span>{category?.name}</span>
                       </div>
 
@@ -258,7 +260,7 @@ export default function ProviderProfile() {
               {workPhotos && workPhotos.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">📸 Galeria de Trabalhos</CardTitle>
+                    <CardTitle className="text-lg flex items-center gap-2"><Image className="w-5 h-5" />Galeria de Trabalhos</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">

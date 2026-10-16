@@ -1,5 +1,5 @@
 import { ServiceProvider } from "@/types";
-import { Star, MapPin, Phone, CheckCircle, Sparkles } from "lucide-react";
+import { Star, MapPin, Phone, CheckCircle, BadgeCheck, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 interface ProviderCardProps {
   provider: ServiceProvider;
@@ -25,7 +25,7 @@ export function ProviderCard({
               {provider.name}
             </h3>
             {provider.isPremium && <span className="badge-premium">
-                <Sparkles className="w-3 h-3" />
+                <BadgeCheck className="w-3 h-3" />
                 Premium
               </span>}
           </div>
@@ -67,7 +67,7 @@ export function ProviderCard({
 
       {/* Price Range */}
       <div className="text-sm font-medium text-foreground mb-4">
-        💰 {provider.priceRange}
+        <DollarSign className="inline w-4 h-4 mr-1" />{provider.priceRange}
       </div>
 
       {/* Actions */}

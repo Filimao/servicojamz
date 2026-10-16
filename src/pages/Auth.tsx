@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Mail, Lock, User, Phone, Briefcase, Users, ShieldCheck, AlertCircle } from "lucide-react";
+import { ArrowLeft, Mail, Lock, User, Phone, Briefcase, Users, ShieldCheck, AlertCircle, Handshake } from "lucide-react";
 
 type AuthMode = "login" | "register";
 type RegisterStep = "form" | "otp";
@@ -154,7 +154,7 @@ export default function Auth() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 mb-4">
               <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center">
-                <span className="text-2xl">🤝</span>
+                <Handshake className="w-7 h-7 text-primary-foreground" />
               </div>
               <span className="font-bold text-2xl text-foreground">ServiçoJá</span>
             </div>

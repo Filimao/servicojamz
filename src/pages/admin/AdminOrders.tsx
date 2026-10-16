@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Clock, CheckCircle, XCircle, AlertCircle, Loader2 } from "lucide-react";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 const statusConfig: Record<string, { label: string; color: string }> = {
   pending: { label: "Pendente", color: "bg-warning/10 text-warning" },
@@ -122,7 +123,7 @@ export default function AdminOrders() {
                           return (
                             <TableRow key={order.id}>
                               <TableCell>
-                                <span>{order.service_categories?.icon} {order.service_categories?.name}</span>
+                                <span className="inline-flex items-center gap-1"><CategoryIcon icon={order.service_categories?.icon} className="w-4 h-4" />{order.service_categories?.name}</span>
                               </TableCell>
                               <TableCell>{order.client_name}</TableCell>
                               <TableCell>{order.provider_name}</TableCell>

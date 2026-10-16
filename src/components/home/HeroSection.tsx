@@ -37,7 +37,7 @@ export function HeroSection() {
         <div className="max-w-2xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent text-accent-foreground text-sm font-semibold mb-6 animate-fade-in shadow-lg">
-            <span>🇲🇿</span>
+            <MapPin className="w-4 h-4" aria-hidden="true" />
             <span>Marketplace #1 de Moçambique</span>
           </div>
 
@@ -68,7 +68,7 @@ export function HeroSection() {
                     <option value="">Que serviço precisa?</option>
                     {categories?.map((cat) => (
                       <option key={cat.id} value={cat.id}>
-                        {cat.icon} {cat.name}
+                        {cat.name}
                       </option>
                     ))}
                   </select>

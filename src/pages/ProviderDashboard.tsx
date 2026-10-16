@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 export default function ProviderDashboard() {
   const { user, profile } = useAuth();
@@ -296,7 +297,7 @@ export default function ProviderDashboard() {
               <Card>
                 <CardHeader><CardTitle className="text-lg">Informações</CardTitle></CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  <p><strong>Categoria:</strong> {(providerProfile as any).service_categories?.icon} {(providerProfile as any).service_categories?.name}</p>
+                  <p className="flex items-center gap-1"><strong>Categoria:</strong> <CategoryIcon icon={(providerProfile as any).service_categories?.icon} className="w-4 h-4" /> {(providerProfile as any).service_categories?.name}</p>
                   <p><strong>Experiência:</strong> {providerProfile.years_experience || 0} anos</p>
                   <p><strong>Trabalhos concluídos:</strong> {providerProfile.completed_jobs || 0}</p>
                   <p><strong>Avaliações:</strong> {providerProfile.review_count || 0}</p>

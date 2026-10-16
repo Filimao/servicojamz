@@ -39,6 +39,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { CategoryIcon, categoryIconOptions, getCategoryIconValue } from "@/components/CategoryIcon";
 
 export default function AdminCategories() {
   const { data: categories, isLoading } = useAdminCategories();
@@ -93,7 +94,7 @@ export default function AdminCategories() {
     setEditingCategory(category);
     setFormData({
       name: category.name,
-      icon: category.icon,
+      icon: getCategoryIconValue(category.icon),
       description: category.description || "",
     });
   };
@@ -130,13 +131,16 @@ export default function AdminCategories() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="icon">Ícone (Emoji)</Label>
-                  <Input
+                  <Label htmlFor="icon">Ícone</Label>
+                  <select
                     id="icon"
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
                     value={formData.icon}
                     onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                    placeholder="Ex: ⚡"
-                  />
+                  >
+                    <option value="">Selecione um ícone</option>
+                    {categoryIconOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                  </select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="description">Descrição</Label>
@@ -193,7 +197,7 @@ export default function AdminCategories() {
                     {categories.map((category) => (
                       <TableRow key={category.id}>
                         <TableCell>
-                          <span className="text-2xl">{category.icon}</span>
+                          <CategoryIcon icon={category.icon} className="w-5 h-5 text-primary" />
                         </TableCell>
                         <TableCell className="font-medium">{category.name}</TableCell>
                         <TableCell className="text-muted-foreground max-w-xs truncate">
@@ -253,12 +257,16 @@ export default function AdminCategories() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-icon">Ícone (Emoji)</Label>
-                <Input
+                <Label htmlFor="edit-icon">Ícone</Label>
+                <select
                   id="edit-icon"
+                  className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
                   value={formData.icon}
                   onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                />
+                >
+                  <option value="">Selecione um ícone</option>
+                  {categoryIconOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                </select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="edit-description">Descrição</Label>

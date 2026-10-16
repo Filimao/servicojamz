@@ -6,6 +6,7 @@ import {
   useToggleVerified,
   useTogglePremium,
 } from "@/hooks/useAdminProviders";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -120,7 +121,7 @@ export default function AdminProviders() {
                             </TableCell>
                             <TableCell>
                               <div className="flex items-center gap-2">
-                                <span>{provider.category?.icon}</span>
+                                <CategoryIcon icon={provider.category?.icon} className="w-4 h-4" />
                                 <span>{provider.category?.name}</span>
                               </div>
                             </TableCell>

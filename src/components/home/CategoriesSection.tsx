@@ -2,6 +2,7 @@ import { useCategories } from "@/hooks/useCategories";
 import { useProviders } from "@/hooks/useProviders";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 export function CategoriesSection() {
   const { data: categories, isLoading } = useCategories();
@@ -28,8 +29,8 @@ export function CategoriesSection() {
               className="group card-interactive p-6 text-center animate-slide-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
-                {category.icon}
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                <CategoryIcon icon={category.icon} className="w-7 h-7" />
               </div>
               <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                 {category.name}

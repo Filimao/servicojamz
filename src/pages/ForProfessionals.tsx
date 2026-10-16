@@ -14,7 +14,7 @@ import {
   ArrowRight,
   Zap,
   Crown,
-  Sparkles
+  Briefcase
 } from "lucide-react";
 
 const benefits = [
@@ -136,7 +136,7 @@ export default function ForProfessionals() {
           <div className="container-app relative">
             <div className="max-w-3xl mx-auto text-center">
               <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
-                🧑‍🔧 Para Profissionais
+                <Briefcase className="w-4 h-4 mr-2" /> Para Profissionais
               </Badge>
               
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
@@ -234,7 +234,7 @@ export default function ForProfessionals() {
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                       <Badge className="bg-primary text-primary-foreground px-4 py-1">
-                        <Sparkles className="w-3 h-3 mr-1" />
+                        <Star className="w-3 h-3 mr-1" />
                         Mais Popular
                       </Badge>
                     </div>

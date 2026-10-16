@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, MessageCircle, Handshake } from "lucide-react";
 import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 
 export function Footer() {
@@ -23,7 +23,7 @@ export function Footer() {
                 <img src={logoUrl} alt={platformName} className="w-10 h-10 rounded-xl object-cover" />
               ) : (
                 <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                  <span className="text-xl">🤝</span>
+                  <Handshake className="w-6 h-6 text-primary-foreground" />
                 </div>
               )}
               <span className="font-bold text-xl">{platformName}</span>

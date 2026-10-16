@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { ProviderWithProfile } from "@/hooks/useProviders";
-import { Star, MapPin, Phone, CheckCircle, Sparkles, MessageCircle } from "lucide-react";
+import { Star, MapPin, Phone, CheckCircle, BadgeCheck, MessageCircle, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 interface ProviderCardDBProps {
   provider: ProviderWithProfile;
@@ -48,14 +49,14 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
               </h3>
               {provider.is_premium && (
                 <span className="badge-premium">
-                  <Sparkles className="w-3 h-3" />
+                  <BadgeCheck className="w-3 h-3" />
                   Premium
                 </span>
               )}
             </div>
             
             <p className="text-sm text-primary font-medium mt-0.5">
-              {provider.category?.icon} {provider.category?.name}
+              <CategoryIcon icon={provider.category?.icon} className="inline w-4 h-4 mr-1" />{provider.category?.name}
             </p>
             
             <div className="flex items-center gap-1 mt-1">
@@ -109,7 +110,7 @@ export function ProviderCardDB({ provider }: ProviderCardDBProps) {
         {/* Price Range */}
         {provider.price_range && (
           <div className="text-sm font-medium text-foreground mb-4">
-            💰 {provider.price_range}
+            <DollarSign className="inline w-4 h-4 mr-1" />{provider.price_range}
           </div>
         )}
 
